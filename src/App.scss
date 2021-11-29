@@ -1,1 +1,241 @@
-@import '~bootstrap/scss/bootstrap.scss';
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;700&display=swap');
+
+//*** Import Bootstrap functions ***//
+@import '~bootstrap/scss/functions';
+
+//************************************//
+//*** Override Bootstrap variables ***//
+//************************************//
+
+// Color palette
+$primary: hsl(16, 13%, 33%);
+$secondary: hsl(83, 33%, 72%);
+$info: hsl(301, 26%, 43%);
+$light: hsl(50, 50%, 93%);
+$dark: hsl(215, 35%, 12%);
+
+// Colors
+$body-bg: $light;
+$body-color: $dark;
+$link-color: $info;
+$input-bg: tint-color($body-bg, 75%);
+
+// Header styling
+// Caveat is a little small, so size headings up a bit
+$h1-font-size: 3rem;
+$h2-font-size: 2.5rem;
+$h3-font-size: 2rem;
+$h4-font-size: 1.75rem;
+$h5-font-size: 1.5rem;
+$h6-font-size: 1.25rem;
+$display-font-sizes: (
+  1: 5.5rem,
+  2: 5rem,
+  3: 4.5rem,
+  4: 4rem,
+  5: 3.5rem,
+  6: 3rem,
+);
+
+// Blockquote styling
+$blockquote-font-size: 1rem;
+$blockquote-footer-color: tint-color($dark, 38%);
+
+// Navbar styling
+$navbar-light-color: rgba($dark, 0.75);
+$navbar-light-hover-color: rgba($primary, 0.97);
+$navbar-light-active-color: rgba($primary, 1);
+$navbar-light-disabled-color: rgba($dark, 0.4);
+$nav-link-font-size: 1.75rem;
+$nav-link-font-weight: 500;
+$navbar-brand-font-size: 1.75rem;
+
+// Dropdown styling
+$caret-vertical-align: 0.12em;
+$dropdown-link-hover-bg: shade-color($light, 12%);
+
+// Accordion styling
+$accordion-bg: tint-color($body-bg, 75%);
+$accordion-button-bg: tint-color($primary, 90%);
+$accordion-button-color: shade-color($primary, 10%);
+
+// Popover styling
+$popover-bg: tint-color($body-bg, 75%);
+$popover-header-bg: tint-color($primary, 90%);
+$popover-body-padding-y: 0.5rem;
+
+// Modal and offcanvas styling
+$modal-content-bg: tint-color($body-bg, 75%);
+
+// Enable negative margin classes
+$enable-negative-margins: true;
+
+//*********************************************//
+//*** Import required Bootstrap stylesheets ***//
+//*********************************************//
+
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+@import '~bootstrap/scss/root';
+
+//**********************************//
+//*** Modify Bootstrap utilities ***//
+//**********************************//
+
+// Add responsive rounded classes for menu item cards
+$utilities: (
+  'rounded': (
+    responsive: true,
+    property: border-radius,
+    class: rounded,
+    values: (
+      null: $border-radius,
+      0: 0,
+      1: $border-radius-sm,
+      2: $border-radius,
+      3: $border-radius-lg,
+      circle: 50%,
+      pill: $border-radius-pill,
+    ),
+  ),
+  'rounded-start': (
+    responsive: true,
+    property: border-bottom-left-radius border-top-left-radius,
+    class: rounded-start,
+    values: (
+      null: $border-radius,
+    ),
+  ),
+  'font-size': (
+    responsive: true,
+    rfs: true,
+    property: font-size,
+    class: fs,
+    values: $font-sizes,
+  ),
+);
+
+//*********************************************//
+//*** Import optional Bootstrap stylesheets ***//
+//*********************************************//
+
+@import '~bootstrap/scss/utilities';
+@import '~bootstrap/scss/reboot';
+@import '~bootstrap/scss/type';
+@import '~bootstrap/scss/images';
+@import '~bootstrap/scss/containers';
+@import '~bootstrap/scss/grid';
+@import '~bootstrap/scss/tables';
+@import '~bootstrap/scss/forms';
+@import '~bootstrap/scss/buttons';
+@import '~bootstrap/scss/transitions';
+@import '~bootstrap/scss/dropdown';
+// @import '~bootstrap/scss/button-group';
+@import '~bootstrap/scss/nav';
+@import '~bootstrap/scss/navbar';
+@import '~bootstrap/scss/card';
+@import '~bootstrap/scss/accordion';
+// @import '~bootstrap/scss/breadcrumb';
+// @import '~bootstrap/scss/pagination';
+// @import '~bootstrap/scss/badge';
+// @import '~bootstrap/scss/alert';
+// @import '~bootstrap/scss/progress';
+// @import '~bootstrap/scss/list-group';
+@import '~bootstrap/scss/close';
+// @import '~bootstrap/scss/toasts';
+@import '~bootstrap/scss/modal';
+// @import '~bootstrap/scss/tooltip';
+@import '~bootstrap/scss/popover';
+// @import '~bootstrap/scss/carousel';
+// @import '~bootstrap/scss/spinners';
+@import '~bootstrap/scss/offcanvas';
+// @import '~bootstrap/scss/placeholders';
+@import '~bootstrap/scss/helpers';
+@import '~bootstrap/scss/utilities/api';
+
+//*****************************//
+//*** Additional custom CSS ***//
+//*****************************//
+
+header {
+  // Bring the header + navbar in front of the positioned splash div
+  z-index: 1;
+}
+
+.nav-link,
+.navbar-brand {
+  font-family: 'Caveat', $font-family-sans-serif;
+}
+.nav-link.active {
+  font-weight: bold;
+}
+.navbar .navbar-brand {
+  color: tint-color($primary, 8%);
+}
+.navbar-brand > .bi-cup {
+  vertical-align: -3%;
+}
+.navbar .dropdown-menu {
+  min-width: 288px;
+}
+
+section,
+.splash {
+  margin-bottom: $spacer * 1.5;
+}
+
+.splash {
+  // Size and position to occupy initial view of page
+  position: relative;
+  top: -$spacer;
+  left: -$spacer;
+  width: calc(100% + 2 * $spacer);
+  height: 100vh;
+
+  // Background; should only fill initial view
+  background-image: url('./assets/three-beverages-from-above.jpg');
+  background-position: top;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.splash hgroup {
+  --bs-bg-opacity: 0.9;
+}
+
+.accordion-item > section {
+  margin-bottom: initial;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Caveat', $font-family-sans-serif;
+  color: var(--bs-primary);
+}
+
+.card {
+  background-color: tint-color($body-bg, 50%);
+}
+.card-menu-item img {
+  height: 160px;
+  min-height: 100%;
+  max-width: 100%;
+  object-fit: cover;
+}
+.menu-item-info {
+  background-color: rgba($secondary, 0.5);
+}
+.menu-item-info:hover {
+  background-color: rgba($secondary, 0.75);
+}
+
+body > footer {
+  margin-top: $spacer * 3;
+
+  $footer-color: tint-color($secondary, 50%);
+  background: $footer-color;
+  box-shadow: 0 100vh 0 100vh $footer-color;
+}
