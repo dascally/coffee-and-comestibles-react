@@ -1,3 +1,4 @@
+import { NavLink } from 'react-router-dom';
 import { Nav, Navbar } from 'react-bootstrap';
 
 export default function Header() {
@@ -11,7 +12,11 @@ export default function Header() {
         {/* TODO: make this have nav-fill and navbar-collapse--hopefully with
         idiomatic react-bootstrap, but custom classes are fine if needed */}
         <Nav className='justify-content-center' fill>
-          <Nav.Link href='/'>Home</Nav.Link>
+          {/* TODO: Either make a custom component wrapper to style router
+          Links or find a library that does that for you */}
+          <NavLink className='nav-link' to='/'>
+            Home
+          </NavLink>
           <Nav.Link href='/menu.html'>Menu</Nav.Link>
           <Nav.Link href='events.html'>Events</Nav.Link>
           <Nav.Link href='about.html'>About</Nav.Link>
