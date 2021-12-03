@@ -1,8 +1,8 @@
 // import reportWebVitals from './reportWebVitals';
-// import './index.css';
 import { StrictMode } from 'react';
 import { render } from 'react-dom';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
 import App from './App.js';
 import Home from './views/Home.js';
 
