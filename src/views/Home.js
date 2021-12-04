@@ -32,7 +32,10 @@ function Splash() {
           Your friendly neighborhood bakery and café
         </h2>
       </hgroup>
-      <a href='#start-content' className='mb-5 position-absolute'>
+      <a
+        href='#start-content'
+        className='mb-5 position-absolute link-primary opacity-75'
+      >
         <FontAwesomeIcon icon={faChevronCircleDown} className='fs-1' />
       </a>
     </div>
