@@ -34,7 +34,7 @@ function Splash() {
       </hgroup>
       <a
         href='#start-content'
-        className='mb-5 position-absolute link-primary opacity-75'
+        className='mb-5 position-absolute link-light opacity-50'
       >
         <FontAwesomeIcon icon={faChevronCircleDown} className='fs-1' />
       </a>
