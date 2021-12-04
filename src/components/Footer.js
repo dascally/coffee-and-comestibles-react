@@ -30,18 +30,20 @@ export default function Footer() {
             <caption className='caption-top text-center text-reset'>
               Hours
             </caption>
-            <tr>
-              <th className='fw-light pe-2'>Monday-Friday</th>
-              <td>9am - 5pm</td>
-            </tr>
-            <tr>
-              <th className='fw-light'>Saturday</th>
-              <td>9am - 1pm</td>
-            </tr>
-            <tr>
-              <th className='fw-light'>Sunday</th>
-              <td>closed</td>
-            </tr>
+            <tbody>
+              <tr>
+                <th className='fw-light pe-2'>Monday-Friday</th>
+                <td>9am - 5pm</td>
+              </tr>
+              <tr>
+                <th className='fw-light'>Saturday</th>
+                <td>9am - 1pm</td>
+              </tr>
+              <tr>
+                <th className='fw-light'>Sunday</th>
+                <td>closed</td>
+              </tr>
+            </tbody>
           </Table>
         </Col>
         <div className='vr p-0 text-primary d-none d-md-block' />
