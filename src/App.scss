@@ -232,7 +232,7 @@ h6 {
   background-color: rgba($secondary, 0.75);
 }
 
-body > footer {
+.footer {
   margin-top: $spacer * 3;
 
   $footer-color: tint-color($secondary, 50%);
