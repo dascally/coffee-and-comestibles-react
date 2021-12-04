@@ -5,13 +5,21 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import App from './App.js';
 import Home from './views/Home.js';
+import About from './views/About.js';
 
 render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<App />}>
+        <Route
+          path='/'
+          element={<App headerClass='position-absolute top-0 w-100' />}
+        >
+          <Route path='/index.html' element={<Home />} />
           <Route index element={<Home />} />
+        </Route>
+        <Route path='/' element={<App />}>
+          <Route path='/about.html' element={<About />} />
         </Route>
       </Routes>
     </BrowserRouter>

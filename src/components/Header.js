@@ -3,9 +3,9 @@ import { Button, Col, Dropdown, Form, Nav, Navbar } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMugHot } from '@fortawesome/free-solid-svg-icons';
 
-export default function Header() {
+export default function Header(props) {
   return (
-    <header>
+    <header {...props}>
       <Navbar className='justify-content-around' expand='md' bg='secondary'>
         <Navbar.Brand className='mx-4 me-lg-5' href='/'>
           <FontAwesomeIcon icon={faMugHot} /> Coffee & Comestibles
