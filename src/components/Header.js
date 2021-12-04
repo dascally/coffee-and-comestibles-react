@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { Button, Col, Dropdown, Form, Nav, Navbar } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMugHot } from '@fortawesome/free-solid-svg-icons';
@@ -7,9 +7,9 @@ export default function Header(props) {
   return (
     <header {...props}>
       <Navbar className='justify-content-around' expand='md' bg='secondary'>
-        <Navbar.Brand className='mx-4 me-lg-5' href='/'>
+        <Link className='navbar-brand mx-4 me-lg-5' to='/'>
           <FontAwesomeIcon icon={faMugHot} /> Coffee & Comestibles
-        </Navbar.Brand>
+        </Link>
         <Navbar.Collapse
           id='globalNav'
           className='justify-content-center navbar-nav nav-fill'
