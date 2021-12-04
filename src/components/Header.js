@@ -19,10 +19,18 @@ export default function Header() {
           <NavLink className='nav-link' to='/'>
             Home
           </NavLink>
-          <Nav.Link href='/menu.html'>Menu</Nav.Link>
-          <Nav.Link href='events.html'>Events</Nav.Link>
-          <Nav.Link href='about.html'>About</Nav.Link>
-          <Nav.Link href='contact.html'>Contact</Nav.Link>
+          <NavLink className='nav-link' to='/menu.html'>
+            Menu
+          </NavLink>
+          <NavLink className='nav-link' to='/events.html'>
+            Events
+          </NavLink>
+          <NavLink className='nav-link' to='/about.html'>
+            About
+          </NavLink>
+          <NavLink className='nav-link' to='/contact.html'>
+            Contact
+          </NavLink>
           <div className='vr text-primary d-none d-md-block' />
           <Dropdown className='mb-2 mb-md-0' as={Nav.Item}>
             <Dropdown.Toggle as={Nav.Link}>Login</Dropdown.Toggle>
