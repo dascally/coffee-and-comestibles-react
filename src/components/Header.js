@@ -14,8 +14,6 @@ export default function Header(props) {
           id='globalNav'
           className='justify-content-center navbar-nav nav-fill'
         >
-          {/* TODO: Either make a custom component wrapper to style router
-          Links or find a library that does that for you */}
           <NavLink className='nav-link' to='/'>
             Home
           </NavLink>
