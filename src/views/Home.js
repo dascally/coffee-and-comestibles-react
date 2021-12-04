@@ -16,6 +16,9 @@ export default function Home() {
       <Container as='section'>
         <Testimonials />
       </Container>
+      <Container as='section'>
+        <Rewards />
+      </Container>
     </>
   );
 }
@@ -137,5 +140,18 @@ function TestimonialCard(props) {
         </Col>
       </Row>
     </Card>
+  );
+}
+
+function Rewards() {
+  return (
+    <>
+      <h2>Get started with Rewards!</h2>
+      <p>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates non
+        a possimus sint accusantium iure iste porro repudiandae nostrum unde?
+        Iure ea eveniet dolor, provident quibusdam dolores autem aperiam maxime!
+      </p>
+    </>
   );
 }
