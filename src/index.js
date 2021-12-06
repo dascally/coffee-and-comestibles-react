@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import App from './App.js';
 import Home from './views/Home.js';
+import Menu from './views/Menu.js';
 import About from './views/About.js';
 import Contact from './views/Contact.js';
 
@@ -20,6 +21,7 @@ render(
           <Route index element={<Home />} />
         </Route>
         <Route path='/' element={<App />}>
+          <Route path='/menu.html' element={<Menu />} />
           <Route path='/about.html' element={<About />} />
           <Route path='/contact.html' element={<Contact />} />
         </Route>
