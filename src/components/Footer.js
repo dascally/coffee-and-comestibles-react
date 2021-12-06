@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, faPhoneAlt } from '@fortawesome/free-solid-svg-icons';
 import {
   faInstagram,
   faFacebook,
@@ -74,12 +74,11 @@ function FooterContact() {
       <address className='lh-lg'>
         <a href='mailto:contact@coffeeandcomestibles.com'>
           <FontAwesomeIcon icon={faEnvelope} className='me-2' />
-          {/* <span class='bi-envelope me-2' aria-label='Email'></span> */}
           contact@coffeeandcomestibles.com
         </a>
         <br />
         <a href='tel:123-555-7890'>
-          <FontAwesomeIcon icon={faPhone} className='me-2' />
+          <FontAwesomeIcon icon={faPhoneAlt} className='me-2' />
           (123) 555-7890
         </a>
       </address>
