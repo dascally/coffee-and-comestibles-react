@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import App from './App.js';
 import Home from './views/Home.js';
 import About from './views/About.js';
+import Contact from './views/Contact.js';
 
 render(
   <StrictMode>
@@ -20,6 +21,7 @@ render(
         </Route>
         <Route path='/' element={<App />}>
           <Route path='/about.html' element={<About />} />
+          <Route path='/contact.html' element={<Contact />} />
         </Route>
       </Routes>
     </BrowserRouter>
