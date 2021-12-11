@@ -205,6 +205,10 @@ section,
 .accordion-item > section {
   margin-bottom: initial;
 }
+.accordion-button {
+  // Equivalent of bootstrap fs-4 class; needed to work around react-bootstrap
+  font-size: calc(1.3rem + 0.6vw);
+}
 
 h1,
 h2,
@@ -227,8 +231,11 @@ h6 {
 }
 .menu-item-info {
   background-color: rgba($secondary, 0.5);
+  border: 0;
 }
-.menu-item-info:hover {
+.menu-item-info:hover,
+.menu-item-info:active,
+.menu-item-info:focus {
   background-color: rgba($secondary, 0.75);
 }
 
