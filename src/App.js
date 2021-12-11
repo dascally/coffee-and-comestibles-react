@@ -7,7 +7,7 @@ function App(props) {
   return (
     <>
       <Header className={props.headerClass} />
-      <main className='m-3'>
+      <main className='m-3 position-relative'>
         <Outlet />
       </main>
       <Footer />
