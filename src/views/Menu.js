@@ -10,6 +10,8 @@ import {
   Accordion,
   Card,
   Image,
+  OverlayTrigger,
+  Popover,
 } from 'react-bootstrap';
 import latteImage from '../assets/latte-1.jpg';
 
@@ -83,8 +85,20 @@ export default function Menu() {
                         <Card.Body>
                           <div className='position-relative'>
                             <Card.Title as='h4'>Banana bread latte</Card.Title>
-                            <Button
-                              className='
+                            <OverlayTrigger
+                              trigger='click'
+                              rootClose
+                              overlay={
+                                <Popover className='shadow-sm'>
+                                  <h4 className='popover-header fs-6'>
+                                    Allergen Info
+                                  </h4>
+                                  <Popover.Body>Contains: soy</Popover.Body>
+                                </Popover>
+                              }
+                            >
+                              <Button
+                                className='
                                 text-primary
                                 menu-item-info
                                 p-1
@@ -93,9 +107,13 @@ export default function Menu() {
                                 top-0
                                 mt-n1 me-n1
                               '
-                            >
-                              <FontAwesomeIcon icon={faInfo} className='mx-2' />
-                            </Button>
+                              >
+                                <FontAwesomeIcon
+                                  icon={faInfo}
+                                  className='mx-2'
+                                />
+                              </Button>
+                            </OverlayTrigger>
                           </div>
                           <Card.Text>
                             Lorem ipsum dolor sit, amet consectetur adipisicing
