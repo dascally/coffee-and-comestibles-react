@@ -13,7 +13,10 @@ import {
   OverlayTrigger,
   Popover,
 } from 'react-bootstrap';
-import latteImage from '../assets/latte-1.jpg';
+import menuData from '../assets/menu-data.js';
+
+// TODO: Abstract card creation so I can use it in
+//       both the menu and the shopping basket
 
 function ShoppingBasket() {
   const [show, setShow] = useState(false);
@@ -48,6 +51,7 @@ function ShoppingBasket() {
         <Offcanvas.Header closeButton={true} onHide={handleClose}>
           <Offcanvas.Title as='h4'>Shopping Basket</Offcanvas.Title>
         </Offcanvas.Header>
+        {/* TODO: Track cards in shopping basket and render here */}
         <Offcanvas.Body>Placeholder text</Offcanvas.Body>
       </Offcanvas>
     </>
@@ -60,45 +64,58 @@ export default function Menu() {
       <ShoppingBasket />
       <Container as='section'>
         <h1>Menu / Order Online</h1>
-        <Accordion defaultActiveKey='hot-drinks'>
-          <Accordion.Item eventKey='hot-drinks'>
-            <Accordion.Header>Hot drinks</Accordion.Header>
-            <Accordion.Body>
-              <Row xs={{ cols: 1 }} lg={{ cols: 2 }} className='g-3'>
-                <Col>
-                  <Card className='g-0 card-menu-item'>
-                    <Row className='g-0'>
-                      <Col sm='auto'>
-                        <Image
-                          src={latteImage}
-                          alt='A latte in a mug'
-                          rounded
-                          className='
+        <Accordion defaultActiveKey={menuData[0].sectionName}>
+          {menuData.map((section) => {
+            return (
+              <Accordion.Item
+                eventKey={section.sectionName}
+                key={section.sectionName}
+              >
+                <Accordion.Header>{section.sectionName}</Accordion.Header>
+                <Accordion.Body>
+                  <Row xs={{ cols: 1 }} lg={{ cols: 2 }} className='g-3'>
+                    {section.items.map((item) => {
+                      return (
+                        <Col>
+                          <Card className='g-0 card-menu-item'>
+                            <Row className='g-0'>
+                              <Col sm='auto'>
+                                <Image
+                                  src={item.image}
+                                  alt='A latte in a mug'
+                                  rounded
+                                  className='
                             rounded-sm-0 rounded-start-sm
                             d-block
                             mx-auto
                             mt-2 mt-sm-0
                           '
-                        />
-                      </Col>
-                      <Col sm>
-                        <Card.Body>
-                          <div className='position-relative'>
-                            <Card.Title as='h4'>Banana bread latte</Card.Title>
-                            <OverlayTrigger
-                              trigger='click'
-                              rootClose
-                              overlay={
-                                <Popover className='shadow-sm'>
-                                  <h4 className='popover-header fs-6'>
-                                    Allergen Info
-                                  </h4>
-                                  <Popover.Body>Contains: soy</Popover.Body>
-                                </Popover>
-                              }
-                            >
-                              <Button
-                                className='
+                                />
+                              </Col>
+                              <Col sm>
+                                <Card.Body>
+                                  <div className='position-relative'>
+                                    <Card.Title as='h4'>{item.name}</Card.Title>
+                                    <OverlayTrigger
+                                      trigger='click'
+                                      rootClose
+                                      overlay={
+                                        <Popover className='shadow-sm'>
+                                          <h4 className='popover-header fs-6'>
+                                            Allergen Info
+                                          </h4>
+                                          <Popover.Body>
+                                            Contains:{' '}
+                                            {item.allergens.reduce(
+                                              (list, allergen) =>
+                                                `${list}, ${allergen}`
+                                            )}
+                                          </Popover.Body>
+                                        </Popover>
+                                      }
+                                    >
+                                      <Button
+                                        className='
                                 text-primary
                                 menu-item-info
                                 p-1
@@ -107,41 +124,27 @@ export default function Menu() {
                                 top-0
                                 mt-n1 me-n1
                               '
-                              >
-                                <FontAwesomeIcon
-                                  icon={faInfo}
-                                  className='mx-2'
-                                />
-                              </Button>
-                            </OverlayTrigger>
-                          </div>
-                          <Card.Text>
-                            Lorem ipsum dolor sit, amet consectetur adipisicing
-                            elit. Perferendis laborum sit esse quam, nemo,
-                            doloribus reiciendis laudantium expedita soluta
-                            fugiat dolorum officia illum? Enim doloribus
-                            provident similique deleniti quia dolore.
-                          </Card.Text>
-                        </Card.Body>
-                      </Col>
-                    </Row>
-                  </Card>
-                </Col>
-              </Row>
-            </Accordion.Body>
-          </Accordion.Item>
-          <Accordion.Item eventKey='cold-drinks'>
-            <Accordion.Header>Cold drinks</Accordion.Header>
-            <Accordion.Body>placeholder</Accordion.Body>
-          </Accordion.Item>
-          <Accordion.Item eventKey='baked-savory'>
-            <Accordion.Header>Baked savory</Accordion.Header>
-            <Accordion.Body>placeholder</Accordion.Body>
-          </Accordion.Item>
-          <Accordion.Item eventKey='baked-sweets'>
-            <Accordion.Header>Baked sweets</Accordion.Header>
-            <Accordion.Body>placeholder</Accordion.Body>
-          </Accordion.Item>
+                                      >
+                                        <FontAwesomeIcon
+                                          icon={faInfo}
+                                          className='mx-2'
+                                        />
+                                      </Button>
+                                    </OverlayTrigger>
+                                  </div>
+                                  <Card.Text>{item.description}</Card.Text>
+                                </Card.Body>
+                              </Col>
+                            </Row>
+                          </Card>
+                        </Col>
+                      );
+                    })}
+                  </Row>
+                </Accordion.Body>
+              </Accordion.Item>
+            );
+          })}
         </Accordion>
       </Container>
     </>
