@@ -72,17 +72,15 @@ function ShoppingBasketItemCard({ name, image, allergens, quantity }) {
 }
 
 function PurchaseList({ contents }) {
-  // contents : [{ item: { name, image: { src, alt }, allergens }, quantity }, ...]
-
   return (
     <>
       {contents.map((menuItem) => (
-        <Row key={menuItem.item.name}>
+        <Row key={menuItem.name}>
           <Col>
             <ShoppingBasketItemCard
-              name={menuItem.item.name}
-              image={menuItem.item.image}
-              allergens={menuItem.item.allergens}
+              name={menuItem.name}
+              image={menuItem.image}
+              allergens={menuItem.allergens}
               quantity={menuItem.quantity}
             />
           </Col>

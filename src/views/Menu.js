@@ -94,13 +94,15 @@ export default function Menu() {
   const [purchaseList, setPurchaseList] = useState([]);
 
   function addToBasket(name, image, allergens, quantity) {
+    const newPurchaseList = purchaseList.slice();
+    const existingItemIndex = newPurchaseList.findIndex(
+      (item) => item.name === name
+    );
     setPurchaseList(
       purchaseList.concat({
-        item: {
-          name,
-          image,
-          allergens,
-        },
+        name,
+        image,
+        allergens,
         quantity,
       })
     );
