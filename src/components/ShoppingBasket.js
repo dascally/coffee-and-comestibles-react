@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingBag } from '@fortawesome/free-solid-svg-icons';
 import {
@@ -18,9 +19,14 @@ function ShoppingBasketItemCard({
   allergens,
   quantity,
   handleRemoveFromBasket,
+  ...props
 }) {
+  let cardClasses = 'g-0 card-shopping-basket-item';
+  if (props.className) {
+    cardClasses += ' ' + props.className;
+  }
   return (
-    <Card className='g-0 card-shopping-basket-item'>
+    <Card className={cardClasses}>
       <Row className='g-0'>
         <Col sm='auto'>
           <Image
@@ -90,6 +96,7 @@ function PurchaseList({ contents, handleRemoveFromBasket }) {
               allergens={menuItem.allergens}
               quantity={menuItem.quantity}
               handleRemoveFromBasket={handleRemoveFromBasket}
+              className='mb-2'
             />
           </Col>
         </Row>
@@ -139,6 +146,15 @@ export default function ShoppingBasket({
             contents={purchaseList}
             handleRemoveFromBasket={handleRemoveFromBasket}
           />
+          <div className='d-flex justify-content-center mt-2'>
+            <Link
+              to='/order-confirmation.html'
+              className='btn btn-primary'
+              // onClick={() => handleRemoveFromBasket('*', Infinity)}
+            >
+              Place your order
+            </Link>
+          </div>
         </Offcanvas.Body>
       </Offcanvas>
     </>

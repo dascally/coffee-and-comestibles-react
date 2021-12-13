@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import App from './App.js';
 import Home from './views/Home.js';
 import Menu from './views/Menu.js';
+import OrderConfirmation from './views/OrderConfirmation.js';
 import Events from './views/Events.js';
 import About from './views/About.js';
 import Contact from './views/Contact.js';
@@ -23,6 +24,10 @@ render(
         </Route>
         <Route path='/' element={<App />}>
           <Route path='/menu.html' element={<Menu />} />
+          <Route
+            path='/order-confirmation.html'
+            element={<OrderConfirmation />}
+          />
           <Route path='/events.html' element={<Events />} />
           <Route path='/about.html' element={<About />} />
           <Route path='/contact.html' element={<Contact />} />

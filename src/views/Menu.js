@@ -121,6 +121,10 @@ export default function Menu() {
   }
 
   function removeFromBasket(name, quantity) {
+    // if (name === '*') {
+    //   setPurchaseList([]);
+    // }
+
     const itemIndex = purchaseList.findIndex((item) => item.name === name);
     if (itemIndex === -1) return;
 
