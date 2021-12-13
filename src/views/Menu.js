@@ -15,7 +15,7 @@ import {
 } from 'react-bootstrap';
 import menuData from '../assets/menu-data.js';
 
-function ShoppingBasket() {
+function ShoppingBasket({ purchaseList }) {
   const [show, setShow] = useState(false);
 
   function handleToggle() {
@@ -48,14 +48,101 @@ function ShoppingBasket() {
         <Offcanvas.Header closeButton={true} onHide={handleClose}>
           <Offcanvas.Title as='h4'>Shopping Basket</Offcanvas.Title>
         </Offcanvas.Header>
-        {/* TODO: Track cards in shopping basket and render here */}
-        <Offcanvas.Body>Placeholder text</Offcanvas.Body>
+        <Offcanvas.Body>
+          <PurchaseList contents={purchaseList} />
+        </Offcanvas.Body>
       </Offcanvas>
     </>
   );
 }
 
-function MenuItemCard({ name, description, image, allergens }) {
+function ShoppingBasketItemCard({ name, image, allergens, quantity }) {
+  return (
+    <Card className='g-0 card-shopping-basket-item'>
+      <Row className='g-0'>
+        <Col sm='auto'>
+          <Image
+            src={image.src}
+            alt={image.alt}
+            rounded
+            className='
+                      rounded-sm-0 rounded-start-sm
+                      d-block
+                      mx-auto
+                      mt-2 mt-sm-0
+                    '
+          />
+        </Col>
+        <Col sm>
+          <Card.Body>
+            <div className='position-relative'>
+              <Card.Title as='h4'>{name}</Card.Title>
+              <OverlayTrigger
+                trigger='click'
+                rootClose
+                overlay={
+                  <Popover className='shadow-sm'>
+                    <h4 className='popover-header fs-6'>Allergen Info</h4>
+                    <Popover.Body>
+                      Contains:{' '}
+                      {allergens.reduce(
+                        (list, allergen) => `${list}, ${allergen}`
+                      )}
+                    </Popover.Body>
+                  </Popover>
+                }
+              >
+                <Button
+                  className='
+                            text-primary
+                            menu-item-info
+                            p-1
+                            position-absolute
+                            end-0
+                            top-0
+                            mt-n1 me-n1
+                          '
+                >
+                  <FontAwesomeIcon icon={faInfo} className='mx-2' />
+                </Button>
+              </OverlayTrigger>
+            </div>
+            <Card.Text>{`Quantity: ${quantity}`}</Card.Text>
+          </Card.Body>
+        </Col>
+      </Row>
+    </Card>
+  );
+}
+
+function PurchaseList({ contents }) {
+  // contents : [{ item: { name, image: { src, alt }, allergens }, quantity }, ...]
+
+  return (
+    <>
+      {contents.map((menuItem) => (
+        <Row key={menuItem.item.name}>
+          <Col>
+            <ShoppingBasketItemCard
+              name={menuItem.item.name}
+              image={menuItem.item.image}
+              allergens={menuItem.item.allergens}
+              quantity={menuItem.quantity}
+            />
+          </Col>
+        </Row>
+      ))}
+    </>
+  );
+}
+
+function MenuItemCard({
+  name,
+  description,
+  image,
+  allergens,
+  handleAddToBasket,
+}) {
   return (
     <Card className='g-0 card-menu-item'>
       <Row className='g-0'>
@@ -107,6 +194,16 @@ function MenuItemCard({ name, description, image, allergens }) {
               </OverlayTrigger>
             </div>
             <Card.Text>{description}</Card.Text>
+            <Button
+              type='button'
+              variant='primary'
+              className='d-block ms-auto'
+              onClick={() => {
+                handleAddToBasket(name, image, allergens, 1);
+              }}
+            >
+              Add 1 to basket
+            </Button>
           </Card.Body>
         </Col>
       </Row>
@@ -115,9 +212,24 @@ function MenuItemCard({ name, description, image, allergens }) {
 }
 
 export default function Menu() {
+  const [purchaseList, setPurchaseList] = useState([]);
+
+  function addToBasket(name, image, allergens, quantity) {
+    setPurchaseList(
+      purchaseList.concat({
+        item: {
+          name,
+          image,
+          allergens,
+        },
+        quantity,
+      })
+    );
+  }
+
   return (
     <>
-      <ShoppingBasket />
+      <ShoppingBasket purchaseList={purchaseList} />
       <Container as='section'>
         <h1>Menu / Order Online</h1>
         <Accordion defaultActiveKey={menuData[0].sectionName}>
@@ -138,6 +250,7 @@ export default function Menu() {
                             description={item.description}
                             image={item.image}
                             allergens={item.allergens}
+                            handleAddToBasket={addToBasket}
                           />
                         </Col>
                       );
