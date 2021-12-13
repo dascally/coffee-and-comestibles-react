@@ -8,14 +8,14 @@ const MENU = [
         name: 'Banana bread latte',
         description:
           'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quae quo nemo natus, dolorum accusantium maiores commodi vel voluptatum aperiam dicta, consequuntur veniam enim adipisci ut alias asperiores pariatur, necessitatibus blanditiis.',
-        image: latteImage,
+        image: { src: latteImage, alt: 'A latte in a mug' },
         allergens: ['soy'],
       },
       {
         name: 'Almond mocha latte',
         description:
           'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Illo maxime porro, a vel, ducimus voluptatem accusantium eveniet impedit deleniti rerum nobis autem error, ut amet. Corporis esse vitae aspernatur placeat.',
-        image: latteImage,
+        image: { src: latteImage, alt: 'A latte in a mug' },
         allergens: ['soy', 'tree nuts'],
       },
     ],

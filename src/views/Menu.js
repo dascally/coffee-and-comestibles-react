@@ -15,9 +15,6 @@ import {
 } from 'react-bootstrap';
 import menuData from '../assets/menu-data.js';
 
-// TODO: Abstract card creation so I can use it in
-//       both the menu and the shopping basket
-
 function ShoppingBasket() {
   const [show, setShow] = useState(false);
 
@@ -58,6 +55,65 @@ function ShoppingBasket() {
   );
 }
 
+function MenuItemCard({ name, description, image, allergens }) {
+  return (
+    <Card className='g-0 card-menu-item'>
+      <Row className='g-0'>
+        <Col sm='auto'>
+          <Image
+            src={image.src}
+            alt={image.alt}
+            rounded
+            className='
+              rounded-sm-0 rounded-start-sm
+              d-block
+              mx-auto
+              mt-2 mt-sm-0
+            '
+          />
+        </Col>
+        <Col sm>
+          <Card.Body>
+            <div className='position-relative'>
+              <Card.Title as='h4'>{name}</Card.Title>
+              <OverlayTrigger
+                trigger='click'
+                rootClose
+                overlay={
+                  <Popover className='shadow-sm'>
+                    <h4 className='popover-header fs-6'>Allergen Info</h4>
+                    <Popover.Body>
+                      Contains:{' '}
+                      {allergens.reduce(
+                        (list, allergen) => `${list}, ${allergen}`
+                      )}
+                    </Popover.Body>
+                  </Popover>
+                }
+              >
+                <Button
+                  className='
+                    text-primary
+                    menu-item-info
+                    p-1
+                    position-absolute
+                    end-0
+                    top-0
+                    mt-n1 me-n1
+                  '
+                >
+                  <FontAwesomeIcon icon={faInfo} className='mx-2' />
+                </Button>
+              </OverlayTrigger>
+            </div>
+            <Card.Text>{description}</Card.Text>
+          </Card.Body>
+        </Col>
+      </Row>
+    </Card>
+  );
+}
+
 export default function Menu() {
   return (
     <>
@@ -77,66 +133,12 @@ export default function Menu() {
                     {section.items.map((item) => {
                       return (
                         <Col>
-                          <Card className='g-0 card-menu-item'>
-                            <Row className='g-0'>
-                              <Col sm='auto'>
-                                <Image
-                                  src={item.image}
-                                  alt='A latte in a mug'
-                                  rounded
-                                  className='
-                            rounded-sm-0 rounded-start-sm
-                            d-block
-                            mx-auto
-                            mt-2 mt-sm-0
-                          '
-                                />
-                              </Col>
-                              <Col sm>
-                                <Card.Body>
-                                  <div className='position-relative'>
-                                    <Card.Title as='h4'>{item.name}</Card.Title>
-                                    <OverlayTrigger
-                                      trigger='click'
-                                      rootClose
-                                      overlay={
-                                        <Popover className='shadow-sm'>
-                                          <h4 className='popover-header fs-6'>
-                                            Allergen Info
-                                          </h4>
-                                          <Popover.Body>
-                                            Contains:{' '}
-                                            {item.allergens.reduce(
-                                              (list, allergen) =>
-                                                `${list}, ${allergen}`
-                                            )}
-                                          </Popover.Body>
-                                        </Popover>
-                                      }
-                                    >
-                                      <Button
-                                        className='
-                                text-primary
-                                menu-item-info
-                                p-1
-                                position-absolute
-                                end-0
-                                top-0
-                                mt-n1 me-n1
-                              '
-                                      >
-                                        <FontAwesomeIcon
-                                          icon={faInfo}
-                                          className='mx-2'
-                                        />
-                                      </Button>
-                                    </OverlayTrigger>
-                                  </div>
-                                  <Card.Text>{item.description}</Card.Text>
-                                </Card.Body>
-                              </Col>
-                            </Row>
-                          </Card>
+                          <MenuItemCard
+                            name={item.name}
+                            description={item.description}
+                            image={item.image}
+                            allergens={item.allergens}
+                          />
                         </Col>
                       );
                     })}
