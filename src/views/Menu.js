@@ -94,18 +94,26 @@ export default function Menu() {
   const [purchaseList, setPurchaseList] = useState([]);
 
   function addToBasket(name, image, allergens, quantity) {
-    const newPurchaseList = purchaseList.slice();
-    const existingItemIndex = newPurchaseList.findIndex(
+    const existingItemIndex = purchaseList.findIndex(
       (item) => item.name === name
     );
-    setPurchaseList(
-      purchaseList.concat({
-        name,
-        image,
-        allergens,
-        quantity,
-      })
-    );
+    if (existingItemIndex === -1) {
+      setPurchaseList(
+        purchaseList.concat({
+          name,
+          image,
+          allergens,
+          quantity,
+        })
+      );
+    } else {
+      const newPurchaseList = purchaseList.slice();
+      newPurchaseList.splice(existingItemIndex, 1, {
+        ...newPurchaseList[existingItemIndex],
+        quantity: newPurchaseList[existingItemIndex].quantity + quantity,
+      });
+      setPurchaseList(newPurchaseList);
+    }
   }
 
   return (
