@@ -91,6 +91,10 @@ function MenuItemCard({
 }
 
 export default function Menu() {
+  // TODO: Refactor. Maybe have a setQuantity function for adding or removing.
+  //       If item is added but not in the list already, call an initItem
+  //       function that adds it, looking up needed data from menu data object.
+
   const [purchaseList, setPurchaseList] = useState([]);
 
   function addToBasket(name, image, allergens, quantity) {
@@ -116,9 +120,29 @@ export default function Menu() {
     }
   }
 
+  function removeFromBasket(name, quantity) {
+    const itemIndex = purchaseList.findIndex((item) => item.name === name);
+    if (itemIndex === -1) return;
+
+    const newPurchaseList = purchaseList.slice();
+    if (quantity >= newPurchaseList[itemIndex].quantity) {
+      newPurchaseList.splice(itemIndex, 1);
+      setPurchaseList(newPurchaseList);
+    } else {
+      newPurchaseList.splice(itemIndex, 1, {
+        ...newPurchaseList[itemIndex],
+        quantity: newPurchaseList[itemIndex].quantity - quantity,
+      });
+      setPurchaseList(newPurchaseList);
+    }
+  }
+
   return (
     <>
-      <ShoppingBasket purchaseList={purchaseList} />
+      <ShoppingBasket
+        purchaseList={purchaseList}
+        handleRemoveFromBasket={removeFromBasket}
+      />
       <Container as='section'>
         <h1>Menu / Order Online</h1>
         <Accordion defaultActiveKey={menuData[0].sectionName}>
@@ -133,7 +157,7 @@ export default function Menu() {
                   <Row xs={{ cols: 1 }} lg={{ cols: 2 }} className='g-3'>
                     {section.items.map((item) => {
                       return (
-                        <Col>
+                        <Col key={item.name}>
                           <MenuItemCard
                             name={item.name}
                             description={item.description}

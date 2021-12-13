@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShoppingBag, faInfo } from '@fortawesome/free-solid-svg-icons';
+import { faShoppingBag } from '@fortawesome/free-solid-svg-icons';
 import {
   Row,
   Col,
@@ -12,7 +12,13 @@ import {
   Popover,
 } from 'react-bootstrap';
 
-function ShoppingBasketItemCard({ name, image, allergens, quantity }) {
+function ShoppingBasketItemCard({
+  name,
+  image,
+  allergens,
+  quantity,
+  handleRemoveFromBasket,
+}) {
   return (
     <Card className='g-0 card-shopping-basket-item'>
       <Row className='g-0'>
@@ -50,16 +56,17 @@ function ShoppingBasketItemCard({ name, image, allergens, quantity }) {
               >
                 <Button
                   className='
-                            text-primary
-                            menu-item-info
-                            p-1
-                            position-absolute
-                            end-0
-                            top-0
-                            mt-n1 me-n1
-                          '
+                    text-primary
+                    menu-item-info
+                    p-1
+                    position-absolute
+                    end-0
+                    top-0
+                    mt-n1 me-n1
+                  '
+                  onClick={() => handleRemoveFromBasket(name, Infinity)}
                 >
-                  <FontAwesomeIcon icon={faInfo} className='mx-2' />
+                  ✗
                 </Button>
               </OverlayTrigger>
             </div>
@@ -71,7 +78,7 @@ function ShoppingBasketItemCard({ name, image, allergens, quantity }) {
   );
 }
 
-function PurchaseList({ contents }) {
+function PurchaseList({ contents, handleRemoveFromBasket }) {
   return (
     <>
       {contents.map((menuItem) => (
@@ -82,6 +89,7 @@ function PurchaseList({ contents }) {
               image={menuItem.image}
               allergens={menuItem.allergens}
               quantity={menuItem.quantity}
+              handleRemoveFromBasket={handleRemoveFromBasket}
             />
           </Col>
         </Row>
@@ -90,7 +98,10 @@ function PurchaseList({ contents }) {
   );
 }
 
-export default function ShoppingBasket({ purchaseList }) {
+export default function ShoppingBasket({
+  purchaseList,
+  handleRemoveFromBasket,
+}) {
   const [show, setShow] = useState(false);
 
   function handleToggle() {
@@ -124,7 +135,10 @@ export default function ShoppingBasket({ purchaseList }) {
           <Offcanvas.Title as='h4'>Shopping Basket</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-          <PurchaseList contents={purchaseList} />
+          <PurchaseList
+            contents={purchaseList}
+            handleRemoveFromBasket={handleRemoveFromBasket}
+          />
         </Offcanvas.Body>
       </Offcanvas>
     </>
