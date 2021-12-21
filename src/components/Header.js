@@ -34,6 +34,8 @@ export default function Header(props) {
             Contact
           </NavLink>
           <div className='vr text-primary d-none d-md-block' />
+          {/* TODO: make component for logged in state and move dropdown to
+          component */}
           {loggedInUser ? (
             <p>Hi {loggedInUser}!</p>
           ) : (
