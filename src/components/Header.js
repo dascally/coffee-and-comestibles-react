@@ -9,7 +9,7 @@ export default function Header(props) {
   const loggedInUser = useContext(UserContext);
 
   return (
-    <header {...props}>
+    <header className={props.className}>
       <Navbar className='justify-content-around' expand='md' bg='secondary'>
         <Link className='navbar-brand mx-4 me-lg-5' to='/'>
           <FontAwesomeIcon icon={faMugHot} /> Coffee & Comestibles
