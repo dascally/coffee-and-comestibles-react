@@ -6,11 +6,11 @@ import Header from './components/Header.js';
 import Footer from './components/Footer.js';
 
 function App(props) {
-  const [loggedInUser, setLoggedInUser] = useState(null);
+  const getOrSetLoggedInUserPair = useState(null);
 
   return (
-    <UserContext.Provider value={loggedInUser}>
-      <Header className={props.headerClass} setLoggedInUser={setLoggedInUser} />
+    <UserContext.Provider value={getOrSetLoggedInUserPair}>
+      <Header className={props.headerClass} />
       <main className='m-3 position-relative'>
         <Outlet />
       </main>

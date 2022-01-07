@@ -6,7 +6,7 @@ import { faMugHot } from '@fortawesome/free-solid-svg-icons';
 import UserContext from '../utils/UserContext.js';
 
 export default function Header(props) {
-  const loggedInUser = useContext(UserContext);
+  const [loggedInUser, setLoggedInUser] = useContext(UserContext);
 
   return (
     <header className={props.className}>
@@ -44,7 +44,7 @@ export default function Header(props) {
               <Dropdown.Menu align='end' className='bg-light mb-2 shadow'>
                 <Form
                   className='py-1 px-3'
-                  onSubmit={() => props.setLoggedInUser('Danny')}
+                  onSubmit={() => setLoggedInUser('Danny')}
                 >
                   <Form.Group className='mb-2'>
                     <Form.Label htmlFor='loginEmail' className='mb-1'>
