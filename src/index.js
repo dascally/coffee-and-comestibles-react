@@ -4,12 +4,12 @@ import { render } from 'react-dom';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import App from './App.js';
-import Home from './views/Home.js';
-import Menu from './views/Menu.js';
-import OrderConfirmation from './views/OrderConfirmation.js';
-import Events from './views/Events.js';
-import About from './views/About.js';
-import Contact from './views/Contact.js';
+import Home from './screens/Home.js';
+import Menu from './screens/Menu.js';
+import OrderConfirmation from './screens/OrderConfirmation.js';
+import Events from './screens/Events.js';
+import About from './screens/About.js';
+import Contact from './screens/Contact.js';
 
 render(
   <StrictMode>
