@@ -22,15 +22,53 @@ const MENU = [
   },
   {
     sectionName: 'Cold drinks',
-    items: [],
+    items: [
+      {
+        name: 'Iced black tea',
+        description:
+          'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quae quo nemo natus, dolorum accusantium maiores commodi vel voluptatum aperiam dicta, consequuntur veniam enim adipisci ut alias asperiores pariatur, necessitatibus blanditiis.',
+        image: { src: latteImage, alt: 'A latte in a mug' },
+        allergens: [''],
+      },
+      {
+        name: 'Iced green tea',
+        description:
+          'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quae quo nemo natus, dolorum accusantium maiores commodi vel voluptatum aperiam dicta, consequuntur veniam enim adipisci ut alias asperiores pariatur, necessitatibus blanditiis.',
+        image: { src: latteImage, alt: 'A latte in a mug' },
+        allergens: [''],
+      },
+    ],
   },
   {
     sectionName: 'Baked savory',
-    items: [],
+    items: [
+      {
+        name: 'Flatbread with hummus',
+        description:
+          'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quae quo nemo natus, dolorum accusantium maiores commodi vel voluptatum aperiam dicta, consequuntur veniam enim adipisci ut alias asperiores pariatur, necessitatibus blanditiis.',
+        image: { src: latteImage, alt: 'A latte in a mug' },
+        allergens: [''],
+      },
+    ],
   },
   {
     sectionName: 'Baked sweets',
-    items: [],
+    items: [
+      {
+        name: 'Brownie',
+        description:
+          'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quae quo nemo natus, dolorum accusantium maiores commodi vel voluptatum aperiam dicta, consequuntur veniam enim adipisci ut alias asperiores pariatur, necessitatibus blanditiis.',
+        image: { src: latteImage, alt: 'A latte in a mug' },
+        allergens: ['egg'],
+      },
+      {
+        name: 'Cranberry chocolate chip cookie',
+        description:
+          'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quae quo nemo natus, dolorum accusantium maiores commodi vel voluptatum aperiam dicta, consequuntur veniam enim adipisci ut alias asperiores pariatur, necessitatibus blanditiis.',
+        image: { src: latteImage, alt: 'A latte in a mug' },
+        allergens: ['egg'],
+      },
+    ],
   },
 ];
 
