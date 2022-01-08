@@ -28,14 +28,14 @@ const MENU = [
         description:
           'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quae quo nemo natus, dolorum accusantium maiores commodi vel voluptatum aperiam dicta, consequuntur veniam enim adipisci ut alias asperiores pariatur, necessitatibus blanditiis.',
         image: { src: latteImage, alt: 'A latte in a mug' },
-        allergens: [''],
+        allergens: [],
       },
       {
         name: 'Iced green tea',
         description:
           'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quae quo nemo natus, dolorum accusantium maiores commodi vel voluptatum aperiam dicta, consequuntur veniam enim adipisci ut alias asperiores pariatur, necessitatibus blanditiis.',
         image: { src: latteImage, alt: 'A latte in a mug' },
-        allergens: [''],
+        allergens: [],
       },
     ],
   },
@@ -47,7 +47,7 @@ const MENU = [
         description:
           'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quae quo nemo natus, dolorum accusantium maiores commodi vel voluptatum aperiam dicta, consequuntur veniam enim adipisci ut alias asperiores pariatur, necessitatibus blanditiis.',
         image: { src: latteImage, alt: 'A latte in a mug' },
-        allergens: [''],
+        allergens: [],
       },
     ],
   },

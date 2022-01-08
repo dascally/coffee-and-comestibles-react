@@ -50,9 +50,11 @@ function MenuItemCard({
                     <h4 className='popover-header fs-6'>Allergen Info</h4>
                     <Popover.Body>
                       Contains:{' '}
-                      {allergens.reduce(
-                        (list, allergen) => `${list}, ${allergen}`
-                      )}
+                      {allergens.length === 0
+                        ? ''
+                        : allergens.reduce(
+                            (list, allergen) => `${list}, ${allergen}`
+                          )}
                     </Popover.Body>
                   </Popover>
                 }
