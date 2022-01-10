@@ -1,6 +1,8 @@
 // import reportWebVitals from './reportWebVitals';
 import { StrictMode } from 'react';
 import { render } from 'react-dom';
+import { Provider } from 'react-redux';
+import store from './app/store.js';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import App from './App.js';
@@ -13,27 +15,29 @@ import Contact from './screens/Contact.js';
 
 render(
   <StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path='/'
-          element={<App headerClass='position-absolute top-0 w-100' />}
-        >
-          <Route path='/index.html' element={<Home />} />
-          <Route index element={<Home />} />
-        </Route>
-        <Route path='/' element={<App />}>
-          <Route path='/menu.html' element={<Menu />} />
+    <Provider store={store}>
+      <BrowserRouter>
+        <Routes>
           <Route
-            path='/order-confirmation.html'
-            element={<OrderConfirmation />}
-          />
-          <Route path='/events.html' element={<Events />} />
-          <Route path='/about.html' element={<About />} />
-          <Route path='/contact.html' element={<Contact />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+            path='/'
+            element={<App headerClass='position-absolute top-0 w-100' />}
+          >
+            <Route path='/index.html' element={<Home />} />
+            <Route index element={<Home />} />
+          </Route>
+          <Route path='/' element={<App />}>
+            <Route path='/menu.html' element={<Menu />} />
+            <Route
+              path='/order-confirmation.html'
+              element={<OrderConfirmation />}
+            />
+            <Route path='/events.html' element={<Events />} />
+            <Route path='/about.html' element={<About />} />
+            <Route path='/contact.html' element={<Contact />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </Provider>
   </StrictMode>,
   document.getElementById('root')
 );

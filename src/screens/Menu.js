@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { changeItemQuantity } from '../features/order/orderSlice.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfo } from '@fortawesome/free-solid-svg-icons';
 import {
@@ -15,13 +16,7 @@ import {
 import ShoppingBasket from '../components/ShoppingBasket.js';
 import menuData from '../assets/menu-data.js';
 
-function MenuItemCard({
-  name,
-  description,
-  image,
-  allergens,
-  handleAddToBasket,
-}) {
+function MenuItemCard({ name, description, image, allergens, onAddToBasket }) {
   return (
     <Card className='g-0 card-menu-item'>
       <Row className='g-0'>
@@ -79,9 +74,7 @@ function MenuItemCard({
               type='button'
               variant='primary'
               className='d-block ms-auto'
-              onClick={() => {
-                handleAddToBasket(name, image, allergens, 1);
-              }}
+              onClick={onAddToBasket}
             >
               Add 1 to basket
             </Button>
@@ -93,62 +86,11 @@ function MenuItemCard({
 }
 
 export default function Menu() {
-  // TODO: Refactor. Maybe have a setQuantity function for adding or removing.
-  //       If item is added but not in the list already, call an initItem
-  //       function that adds it, looking up needed data from menu data object.
-
-  const [purchaseList, setPurchaseList] = useState([]);
-
-  function addToBasket(name, image, allergens, quantity) {
-    const existingItemIndex = purchaseList.findIndex(
-      (item) => item.name === name
-    );
-    if (existingItemIndex === -1) {
-      setPurchaseList(
-        purchaseList.concat({
-          name,
-          image,
-          allergens,
-          quantity,
-        })
-      );
-    } else {
-      const newPurchaseList = purchaseList.slice();
-      newPurchaseList.splice(existingItemIndex, 1, {
-        ...newPurchaseList[existingItemIndex],
-        quantity: newPurchaseList[existingItemIndex].quantity + quantity,
-      });
-      setPurchaseList(newPurchaseList);
-    }
-  }
-
-  function removeFromBasket(name, quantity) {
-    // if (name === '*') {
-    //   setPurchaseList([]);
-    // }
-
-    const itemIndex = purchaseList.findIndex((item) => item.name === name);
-    if (itemIndex === -1) return;
-
-    const newPurchaseList = purchaseList.slice();
-    if (quantity >= newPurchaseList[itemIndex].quantity) {
-      newPurchaseList.splice(itemIndex, 1);
-      setPurchaseList(newPurchaseList);
-    } else {
-      newPurchaseList.splice(itemIndex, 1, {
-        ...newPurchaseList[itemIndex],
-        quantity: newPurchaseList[itemIndex].quantity - quantity,
-      });
-      setPurchaseList(newPurchaseList);
-    }
-  }
+  const dispatch = useDispatch();
 
   return (
     <>
-      <ShoppingBasket
-        purchaseList={purchaseList}
-        handleRemoveFromBasket={removeFromBasket}
-      />
+      <ShoppingBasket menu={menuData} />
       <Container as='section'>
         <h1>Menu / Order Online</h1>
         <Accordion defaultActiveKey={menuData[0].sectionName}>
@@ -163,13 +105,20 @@ export default function Menu() {
                   <Row xs={{ cols: 1 }} lg={{ cols: 2 }} className='g-3'>
                     {section.items.map((item) => {
                       return (
-                        <Col key={item.name}>
+                        <Col key={item.id}>
                           <MenuItemCard
                             name={item.name}
                             description={item.description}
                             image={item.image}
                             allergens={item.allergens}
-                            handleAddToBasket={addToBasket}
+                            onAddToBasket={() => {
+                              dispatch(
+                                changeItemQuantity({
+                                  id: item.id,
+                                  quantityChange: 1,
+                                })
+                              );
+                            }}
                           />
                         </Col>
                       );

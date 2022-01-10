@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { removeItem } from '../features/order/orderSlice.js';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingBag } from '@fortawesome/free-solid-svg-icons';
@@ -13,18 +15,31 @@ import {
   Popover,
 } from 'react-bootstrap';
 
-function ShoppingBasketItemCard({
-  name,
-  image,
-  allergens,
-  quantity,
-  handleRemoveFromBasket,
-  ...props
-}) {
+function getMenuItemByID(id, menu) {
+  const flatMenu = menu.flatMap((section) => section.items);
+
+  const menuItem = flatMenu.find((menuItem) => menuItem.id === id);
+
+  if (menuItem === undefined) {
+    throw new Error(`Menu item with ID ${id} not found.`);
+  } else {
+    return menuItem;
+  }
+}
+
+function ShoppingBasketItemCard({ menuItemID, menu, ...props }) {
+  const dispatch = useDispatch();
+  const { name, image, allergens } = getMenuItemByID(menuItemID, menu);
+  const quantity = useSelector(
+    (state) =>
+      state.order.find((menuItem) => menuItem.id === menuItemID).quantity
+  );
+
   let cardClasses = 'g-0 card-shopping-basket-item';
   if (props.className) {
     cardClasses += ' ' + props.className;
   }
+
   return (
     <Card className={cardClasses}>
       <Row className='g-0'>
@@ -52,10 +67,7 @@ function ShoppingBasketItemCard({
                   <Popover className='shadow-sm'>
                     <h4 className='popover-header fs-6'>Allergen Info</h4>
                     <Popover.Body>
-                      Contains:{' '}
-                      {allergens.reduce(
-                        (list, allergen) => `${list}, ${allergen}`
-                      )}
+                      Contains: {allergens.join(', ')}
                     </Popover.Body>
                   </Popover>
                 }
@@ -70,7 +82,7 @@ function ShoppingBasketItemCard({
                     top-0
                     mt-n1 me-n1
                   '
-                  onClick={() => handleRemoveFromBasket(name, Infinity)}
+                  onClick={() => dispatch(removeItem(menuItemID))}
                 >
                   ✗
                 </Button>
@@ -84,18 +96,17 @@ function ShoppingBasketItemCard({
   );
 }
 
-function PurchaseList({ contents, handleRemoveFromBasket }) {
+function PurchaseList({ menu }) {
+  const orderList = useSelector((state) => state.order);
+
   return (
     <>
-      {contents.map((menuItem) => (
-        <Row key={menuItem.name}>
+      {orderList.map((menuItem) => (
+        <Row key={menuItem.id}>
           <Col>
             <ShoppingBasketItemCard
-              name={menuItem.name}
-              image={menuItem.image}
-              allergens={menuItem.allergens}
-              quantity={menuItem.quantity}
-              handleRemoveFromBasket={handleRemoveFromBasket}
+              menuItemID={menuItem.id}
+              menu={menu}
               className='mb-2'
             />
           </Col>
@@ -105,18 +116,11 @@ function PurchaseList({ contents, handleRemoveFromBasket }) {
   );
 }
 
-export default function ShoppingBasket({
-  purchaseList,
-  handleRemoveFromBasket,
-}) {
+export default function ShoppingBasket({ menu }) {
   const [show, setShow] = useState(false);
 
   function handleToggle() {
-    if (show) {
-      setShow(false);
-    } else {
-      setShow(true);
-    }
+    setShow(!show);
   }
   function handleClose() {
     setShow(false);
@@ -142,10 +146,7 @@ export default function ShoppingBasket({
           <Offcanvas.Title as='h4'>Shopping Basket</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-          <PurchaseList
-            contents={purchaseList}
-            handleRemoveFromBasket={handleRemoveFromBasket}
-          />
+          <PurchaseList menu={menu} />
           <div className='d-flex justify-content-center mt-2'>
             <Link
               to='/order-confirmation.html'
