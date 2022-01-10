@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { removeItem } from '../features/order/orderSlice.js';
+import {
+  removeItem,
+  selectOrderItemQuantity,
+} from '../features/order/orderSlice.js';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingBag } from '@fortawesome/free-solid-svg-icons';
@@ -30,10 +33,7 @@ function getMenuItemByID(id, menu) {
 function ShoppingBasketItemCard({ menuItemID, menu, ...props }) {
   const dispatch = useDispatch();
   const { name, image, allergens } = getMenuItemByID(menuItemID, menu);
-  const quantity = useSelector(
-    (state) =>
-      state.order.find((menuItem) => menuItem.id === menuItemID).quantity
-  );
+  const quantity = useSelector(selectOrderItemQuantity(menuItemID));
 
   let cardClasses = 'g-0 card-shopping-basket-item';
   if (props.className) {

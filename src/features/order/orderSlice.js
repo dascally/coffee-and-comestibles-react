@@ -27,6 +27,9 @@ const orderSlice = createSlice({
   },
 });
 
+export const selectOrderItemQuantity = (menuItemID) => (state) =>
+  state.order.find((menuItem) => menuItem.id === menuItemID).quantity;
+
 export const { changeItemQuantity, removeItem, clearOrder } =
   orderSlice.actions;
 export default orderSlice.reducer;
