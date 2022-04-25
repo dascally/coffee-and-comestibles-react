@@ -83,6 +83,7 @@ function FooterContact() {
         </a>
       </address>
       <div className='fs-4 text-primary d-flex'>
+        {/* eslint-disable */}
         <a href='#' className='link-primary me-4'>
           <FontAwesomeIcon icon={faInstagram} />
         </a>
@@ -98,6 +99,7 @@ function FooterContact() {
         >
           <FontAwesomeIcon icon={faGithub} />
         </a>
+        {/* eslint-enable */}
       </div>
     </>
   );
