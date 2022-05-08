@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { changeItemQuantity } from '../features/order/orderSlice.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -14,6 +15,7 @@ import {
   Popover,
 } from 'react-bootstrap';
 import ShoppingBasket from '../components/ShoppingBasket.js';
+import { fetchMenu } from '../features/menu/menuSlice.js';
 import menuData from '../assets/menu-data.js';
 
 function MenuItemCard({ name, description, image, allergens, onAddToBasket }) {
@@ -87,6 +89,10 @@ function MenuItemCard({ name, description, image, allergens, onAddToBasket }) {
 
 export default function Menu() {
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchMenu());
+  }, [dispatch]);
 
   return (
     <>
