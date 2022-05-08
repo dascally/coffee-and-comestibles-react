@@ -1,10 +1,29 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { login, logout } from '../features/user/userSlice';
 import { Button, Dropdown, Form, Nav } from 'react-bootstrap';
-import UserContext from '../utils/UserContext.js';
 
 export default function LoginDropdown(props) {
-  const [loggedInUser, setLoggedInUser] = useContext(UserContext);
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
   const [showDropdown, setShowDropdown] = useState(false);
+
+  const handleLoginSubmit = (evt) => {
+    evt.preventDefault();
+
+    const form = evt.target;
+    dispatch(
+      login({
+        email: form.elements.email.value,
+        password: form.elements.password.value,
+      })
+    );
+
+    setShowDropdown(false);
+  };
+  const handleLogoutClick = () => {
+    dispatch(logout());
+  };
 
   return (
     <Dropdown
@@ -15,32 +34,24 @@ export default function LoginDropdown(props) {
         setShowDropdown(!showDropdown);
       }}
     >
-      {loggedInUser ? (
+      {user ? (
         <>
           <Dropdown.Toggle as={Nav.Link}>Account</Dropdown.Toggle>
           <Dropdown.Menu align='end' className='bg-light mb-2 shadow'>
-            <Dropdown.Item>Hi, {loggedInUser}!</Dropdown.Item>
+            <Dropdown.Item>Hi, {user.firstName}!</Dropdown.Item>
             <Dropdown.Divider />
             <Dropdown.Item>Rewards</Dropdown.Item>
             <Dropdown.Item>Favorite Orders</Dropdown.Item>
             <Dropdown.Item>Account Settings</Dropdown.Item>
             <Dropdown.Divider />
-            <Dropdown.Item onClick={() => setLoggedInUser(null)}>
-              Logout
-            </Dropdown.Item>
+            <Dropdown.Item onClick={handleLogoutClick}>Logout</Dropdown.Item>
           </Dropdown.Menu>
         </>
       ) : (
         <>
           <Dropdown.Toggle as={Nav.Link}>Login</Dropdown.Toggle>
           <Dropdown.Menu align='end' className='bg-light mb-2 shadow'>
-            <Form
-              className='py-1 px-3'
-              onSubmit={() => {
-                setLoggedInUser('Danny');
-                setShowDropdown(false);
-              }}
-            >
+            <Form className='py-1 px-3' onSubmit={handleLoginSubmit}>
               <Form.Group className='mb-2'>
                 <Form.Label htmlFor='loginEmail' className='mb-1'>
                   Email
