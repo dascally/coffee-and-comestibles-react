@@ -17,12 +17,19 @@ export default function LoginDropdown(props) {
         email: form.elements.email.value,
         password: form.elements.password.value,
       })
-    );
+    )
+      .unwrap()
+      .then((user) => {
+        if (form.elements.remember.checked) {
+          localStorage.setItem('user', JSON.stringify(user));
+        }
+      });
 
     setShowDropdown(false);
   };
   const handleLogoutClick = () => {
     dispatch(logout());
+    localStorage.removeItem('user');
   };
 
   return (

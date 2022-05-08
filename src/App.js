@@ -1,9 +1,21 @@
 import './App.scss';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { setUser } from './features/user/userSlice.js';
 import { Outlet } from 'react-router-dom';
 import Header from './components/Header.js';
 import Footer from './components/Footer.js';
 
 function App(props) {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const user = localStorage.getItem('user');
+    if (user) {
+      dispatch(setUser(JSON.parse(user)));
+    }
+  }, [dispatch]);
+
   return (
     <>
       <Header className={props.headerClass} />
