@@ -1,10 +1,9 @@
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeItemQuantity } from '../features/order/orderSlice.js';
 import { Container, Row, Col, Accordion } from 'react-bootstrap';
 import MenuItemCard from '../components/MenuItemCard.js';
 import ShoppingBasket from '../components/ShoppingBasket.js';
-import { fetchMenu } from '../features/menu/menuSlice.js';
 
 const structureMenuData = (flatMenuData) => {
   const structuredMenuData = [];
@@ -29,10 +28,6 @@ const structureMenuData = (flatMenuData) => {
 
 export default function Menu() {
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchMenu());
-  }, [dispatch]);
 
   const flatMenuData = useSelector((state) => state.menu);
   const menu = useMemo(() => structureMenuData(flatMenuData), [flatMenuData]);
