@@ -12,6 +12,7 @@ import OrderConfirmation from './screens/OrderConfirmation.js';
 import Events from './screens/Events.js';
 import About from './screens/About.js';
 import Contact from './screens/Contact.js';
+import Account from './screens/Account.js';
 
 render(
   <StrictMode>
@@ -34,6 +35,7 @@ render(
             <Route path='/events.html' element={<Events />} />
             <Route path='/about.html' element={<About />} />
             <Route path='/contact.html' element={<Contact />} />
+            <Route path='/account.html' element={<Account />} />
           </Route>
         </Routes>
       </BrowserRouter>

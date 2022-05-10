@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { login, logout } from '../features/user/userSlice';
 import { Button, Dropdown, Form, Nav } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 export default function LoginDropdown(props) {
   const dispatch = useDispatch();
@@ -45,7 +46,9 @@ export default function LoginDropdown(props) {
         <>
           <Dropdown.Toggle as={Nav.Link}>Account</Dropdown.Toggle>
           <Dropdown.Menu align='end' className='bg-light mb-2 shadow'>
-            <Dropdown.Item>Hi, {user.firstName}!</Dropdown.Item>
+            <Dropdown.Item as={Link} to='/account.html'>
+              Hi, {user.firstName}!
+            </Dropdown.Item>
             <Dropdown.Divider />
             <Dropdown.Item>Rewards</Dropdown.Item>
             <Dropdown.Item>Favorite Orders</Dropdown.Item>
