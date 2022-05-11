@@ -58,5 +58,46 @@ const getSavedPayments = async (userId, jwt) => {
   }
 };
 
-const service = { getRewards, getSavedOrders, getSavedPayments };
+const addSavedPayment = async (
+  userId,
+  jwt,
+  { cardNumber, securityCode, billingName, streetAddress, city, state, zipCode }
+) => {
+  try {
+    const newPayment = {
+      cardNumber,
+      securityCode,
+      billingName,
+      streetAddress,
+      city,
+      state,
+      zipCode,
+    };
+    const result = await fetch(`${baseUrl}/users/${userId}/savedPayments`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${jwt}`,
+      },
+      body: JSON.stringify(newPayment),
+    });
+
+    if (!result.ok) {
+      const err = new Error('Error adding new payment.');
+      err.status = result.status;
+      throw err;
+    }
+
+    return result.json();
+  } catch (err) {
+    throw err;
+  }
+};
+
+const service = {
+  getRewards,
+  getSavedOrders,
+  getSavedPayments,
+  addSavedPayment,
+};
 export default service;

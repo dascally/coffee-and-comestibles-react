@@ -27,6 +27,32 @@ export const viewAccountInfo = createAsyncThunk(
   }
 );
 
+export const addSavedPayment = createAsyncThunk(
+  'user/addSavedPayment',
+  async ({
+    userId,
+    jwt,
+    cardNumber,
+    securityCode,
+    billingName,
+    streetAddress,
+    city,
+    state,
+    zipCode,
+  }) => {
+    const paymentInfo = {
+      cardNumber,
+      securityCode,
+      billingName,
+      streetAddress,
+      city,
+      state,
+      zipCode,
+    };
+    return await userService.addSavedPayment(userId, jwt, paymentInfo);
+  }
+);
+
 const userSlice = createSlice({
   name: 'user',
   initialState: null,
@@ -72,6 +98,9 @@ const userSlice = createSlice({
         localStorage.removeItem('user');
         return null;
       }
+    });
+    builder.addCase(addSavedPayment.fulfilled, (state, action) => {
+      state.savedPayments.push(action.payload);
     });
   },
 });

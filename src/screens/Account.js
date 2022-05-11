@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Col, Container, Nav, Row } from 'react-bootstrap';
 import { viewAccountInfo } from '../features/user/userSlice';
 import SavedPaymentCard from '../components/SavedPaymentCard';
+import AddSavedPayment from '../components/AddSavedPayment';
 
 export default function Account() {
   const dispatch = useDispatch();
@@ -65,12 +66,17 @@ export default function Account() {
             </Container>
             <Container as='section' id='payments'>
               <h2>Saved payments</h2>
-              <Row xs={1} md={2} className='g-3'>
+              <Row xs={1} md={2} className='g-3 mb-3'>
                 {savedPayments.map((savedPayment) => (
                   <Col>
                     <SavedPaymentCard {...savedPayment} />
                   </Col>
                 ))}
+              </Row>
+              <Row>
+                <Col>
+                  <AddSavedPayment />
+                </Col>
               </Row>
             </Container>
             <Container as='section' id='change'>
