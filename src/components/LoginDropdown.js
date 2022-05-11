@@ -30,7 +30,6 @@ export default function LoginDropdown(props) {
   };
   const handleLogoutClick = () => {
     dispatch(logout());
-    localStorage.removeItem('user');
   };
 
   return (
