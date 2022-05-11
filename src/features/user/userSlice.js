@@ -53,6 +53,14 @@ export const addSavedPayment = createAsyncThunk(
   }
 );
 
+export const deleteSavedPayment = createAsyncThunk(
+  'user/deleteSavedPayment',
+  async ({ userId, jwt, paymentId }) => {
+    await userService.deleteSavedPayment(userId, jwt, paymentId);
+    return paymentId;
+  }
+);
+
 const userSlice = createSlice({
   name: 'user',
   initialState: null,
@@ -101,6 +109,14 @@ const userSlice = createSlice({
     });
     builder.addCase(addSavedPayment.fulfilled, (state, action) => {
       state.savedPayments.push(action.payload);
+    });
+    builder.addCase(deleteSavedPayment.fulfilled, (state, action) => {
+      return {
+        ...state,
+        savedPayments: state.savedPayments.filter(
+          (payment) => payment._id !== action.payload
+        ),
+      };
     });
   },
 });

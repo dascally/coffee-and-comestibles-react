@@ -94,10 +94,31 @@ const addSavedPayment = async (
   }
 };
 
+const deleteSavedPayment = async (userId, jwt, paymentId) => {
+  try {
+    const result = await fetch(
+      `${baseUrl}/users/${userId}/savedPayments/${paymentId}`,
+      {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${jwt}` },
+      }
+    );
+
+    if (result.status !== 204 && result.status !== 404) {
+      const err = new Error('Error deleting saved payment.');
+      err.status = result.status;
+      throw err;
+    }
+  } catch (err) {
+    throw err;
+  }
+};
+
 const service = {
   getRewards,
   getSavedOrders,
   getSavedPayments,
   addSavedPayment,
+  deleteSavedPayment,
 };
 export default service;

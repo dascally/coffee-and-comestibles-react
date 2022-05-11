@@ -1,4 +1,6 @@
-import { Card } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { Button, Card } from 'react-bootstrap';
+import { deleteSavedPayment } from '../features/user/userSlice';
 
 const SavedPaymentCard = ({
   billingName,
@@ -7,7 +9,16 @@ const SavedPaymentCard = ({
   state,
   zipCode,
   cardNumberFinalDigits,
+  _id,
 }) => {
+  const dispatch = useDispatch();
+  const jwt = useSelector((state) => state.user?.token);
+  const userId = useSelector((state) => state.user?.id);
+
+  const handleDeleteClick = (evt) => {
+    dispatch(deleteSavedPayment({ jwt, userId, paymentId: _id }));
+  };
+
   return (
     <Card>
       <Card.Body>
@@ -20,8 +31,16 @@ const SavedPaymentCard = ({
           <br />
           {city}, {state} {zipCode}
         </Card.Text>
-        <Card.Link className='link-danger'>Delete</Card.Link>
-        <Card.Link className='position-absolute end-0 me-3'>Edit</Card.Link>
+        <Button
+          variant='link'
+          className='text-danger p-0'
+          onClick={handleDeleteClick}
+        >
+          Delete
+        </Button>
+        <Button variant='link' className='position-absolute end-0 p-0 me-3'>
+          Edit
+        </Button>
       </Card.Body>
     </Card>
   );

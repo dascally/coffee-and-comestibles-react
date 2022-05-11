@@ -68,7 +68,7 @@ export default function Account() {
               <h2>Saved payments</h2>
               <Row xs={1} md={2} className='g-3 mb-3'>
                 {savedPayments.map((savedPayment) => (
-                  <Col>
+                  <Col key={savedPayment._id}>
                     <SavedPaymentCard {...savedPayment} />
                   </Col>
                 ))}
