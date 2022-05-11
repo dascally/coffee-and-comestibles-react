@@ -61,6 +61,35 @@ export const deleteSavedPayment = createAsyncThunk(
   }
 );
 
+export const editSavedPayment = createAsyncThunk(
+  'user/editSavedPayment',
+  async ({
+    userId,
+    jwt,
+    paymentId,
+    billingName,
+    streetAddress,
+    city,
+    state,
+    zipCode,
+  }) => {
+    const paymentInfo = {
+      billingName,
+      streetAddress,
+      city,
+      state,
+      zipCode,
+    };
+
+    return await userService.editSavedPayment(
+      userId,
+      jwt,
+      paymentId,
+      paymentInfo
+    );
+  }
+);
+
 const userSlice = createSlice({
   name: 'user',
   initialState: null,
@@ -115,6 +144,14 @@ const userSlice = createSlice({
         ...state,
         savedPayments: state.savedPayments.filter(
           (payment) => payment._id !== action.payload
+        ),
+      };
+    });
+    builder.addCase(editSavedPayment.fulfilled, (state, action) => {
+      return {
+        ...state,
+        savedPayments: state.savedPayments.map((payment) =>
+          payment._id === action.payload._id ? action.payload : payment
         ),
       };
     });

@@ -114,11 +114,51 @@ const deleteSavedPayment = async (userId, jwt, paymentId) => {
   }
 };
 
+const editSavedPayment = async (
+  userId,
+  jwt,
+  paymentId,
+  { billingName, streetAddress, city, state, zipCode }
+) => {
+  try {
+    const newPayment = {
+      billingName,
+      streetAddress,
+      city,
+      state,
+      zipCode,
+    };
+
+    const result = await fetch(
+      `${baseUrl}/users/${userId}/savedPayments/${paymentId}`,
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${jwt}`,
+        },
+        body: JSON.stringify(newPayment),
+      }
+    );
+
+    if (!result.ok) {
+      const err = new Error('Error editing payment.');
+      err.status = result.status;
+      throw err;
+    }
+
+    return result.json();
+  } catch (err) {
+    throw err;
+  }
+};
+
 const service = {
   getRewards,
   getSavedOrders,
   getSavedPayments,
   addSavedPayment,
   deleteSavedPayment,
+  editSavedPayment,
 };
 export default service;
