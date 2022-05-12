@@ -1,3 +1,5 @@
+import { useDispatch, useSelector } from 'react-redux';
+import { changeItemQuantity } from '../features/order/orderSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfo } from '@fortawesome/free-solid-svg-icons';
 import {
@@ -10,13 +12,22 @@ import {
   Popover,
 } from 'react-bootstrap';
 
-function MenuItemCard({ name, description, image, allergens, onAddToBasket }) {
+function MenuItemCard({ id }) {
+  const dispatch = useDispatch();
+  const { name, description, image, allergens, price, options } = useSelector(
+    (state) => state.menu.find((menuItem) => id === menuItem._id)
+  );
+
+  const handleAddToBasket = () => {
+    dispatch(changeItemQuantity({ id, quantityChange: 1 }));
+  };
+
   return (
     <Card className='g-0 card-menu-item'>
       <Row className='g-0'>
         <Col sm='auto'>
           <Image
-            src={image.src}
+            src={`menu/${image.src}`}
             alt={image.alt}
             rounded
             className='
@@ -68,7 +79,7 @@ function MenuItemCard({ name, description, image, allergens, onAddToBasket }) {
               type='button'
               variant='primary'
               className='d-block ms-auto'
-              onClick={onAddToBasket}
+              onClick={handleAddToBasket}
             >
               Add 1 to basket
             </Button>

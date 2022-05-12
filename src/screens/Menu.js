@@ -1,6 +1,5 @@
 import { useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { changeItemQuantity } from '../features/order/orderSlice.js';
+import { useSelector } from 'react-redux';
 import { Container, Row, Col, Accordion } from 'react-bootstrap';
 import MenuItemCard from '../components/MenuItemCard.js';
 import ShoppingBasket from '../components/ShoppingBasket.js';
@@ -27,8 +26,6 @@ const structureMenuData = (flatMenuData) => {
 };
 
 export default function Menu() {
-  const dispatch = useDispatch();
-
   const flatMenuData = useSelector((state) => state.menu);
   const menu = useMemo(() => structureMenuData(flatMenuData), [flatMenuData]);
 
@@ -50,20 +47,7 @@ export default function Menu() {
                     {section.items.map((item) => {
                       return (
                         <Col key={item._id}>
-                          <MenuItemCard
-                            name={item.name}
-                            description={item.description}
-                            image={item.image}
-                            allergens={item.allergens}
-                            onAddToBasket={() => {
-                              dispatch(
-                                changeItemQuantity({
-                                  id: item.id,
-                                  quantityChange: 1,
-                                })
-                              );
-                            }}
-                          />
+                          <MenuItemCard id={item._id} />
                         </Col>
                       );
                     })}
