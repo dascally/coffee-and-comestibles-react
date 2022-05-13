@@ -23,15 +23,18 @@ function MenuItemCard({ id }) {
   const [unselectedOptions, setUnselectedOptions] = useState(options.slice());
   const [selectedOptions, setSelectedOptions] = useState([]);
 
+  // Selected options have the shape:
+  // { name: String, suboptions: [String], selected: String }
   const handleAddOptionClick = (evt) => {
     const optionName = evt.target.textContent;
     if (selectedOptions.find((option) => option.name === optionName)) return;
 
-    setSelectedOptions(
-      selectedOptions.concat(
-        options.find((option) => option.name === optionName)
-      )
-    );
+    const newOption = {
+      ...options.find((option) => option.name === optionName),
+    };
+    newOption.selected = newOption.suboptions[0];
+    setSelectedOptions(selectedOptions.concat(newOption));
+
     setUnselectedOptions(
       unselectedOptions.filter((option) => option.name !== optionName)
     );
@@ -46,6 +49,19 @@ function MenuItemCard({ id }) {
         options.find((option) => option.name === optionName)
       )
     );
+  };
+
+  const selectSuboption = (optionName, suboption) => {
+    const newSelectedOptions = selectedOptions.map((option) => {
+      if (option.name !== optionName) {
+        return option;
+      }
+
+      const newOption = { ...option };
+      newOption.selected = suboption;
+      return newOption;
+    });
+    setSelectedOptions(newSelectedOptions);
   };
 
   const handleAddToBasketClick = () => {
@@ -114,17 +130,28 @@ function MenuItemCard({ id }) {
             <Card.Text className='mb-2'>{description}</Card.Text>
 
             {selectedOptions.map((option) => {
+              const hyphenatedName = option.name.replaceAll(/\s+/g, '-');
+
               return (
-                <Row className='mb-1'>
+                <Row key={hyphenatedName} className='mb-1'>
                   <Col xs={5} sm={5} md={4} lg={5} xl={4}>
-                    <label htmlFor='' className='text-nowrap'>
+                    <label htmlFor={hyphenatedName} className='text-nowrap'>
                       {option.name}
                     </label>
                   </Col>
                   <Col className='d-flex align-items-center'>
-                    <select name='' id='' style={{ width: '13ch' }}>
+                    <select
+                      id={hyphenatedName}
+                      style={{ width: '13ch' }}
+                      value={option.selected}
+                      onChange={(evt) => {
+                        selectSuboption(option.name, evt.target.value);
+                      }}
+                    >
                       {option.suboptions.map((suboption) => (
-                        <option>{suboption}</option>
+                        <option key={`${hyphenatedName}-${suboption}`}>
+                          {suboption}
+                        </option>
                       ))}
                     </select>
                     <CloseButton
@@ -145,7 +172,10 @@ function MenuItemCard({ id }) {
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
                   {unselectedOptions.map((option) => (
-                    <Dropdown.Item onClick={handleAddOptionClick}>
+                    <Dropdown.Item
+                      key={option.name}
+                      onClick={handleAddOptionClick}
+                    >
                       {option.name}
                     </Dropdown.Item>
                   ))}
