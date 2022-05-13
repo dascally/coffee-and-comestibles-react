@@ -41,7 +41,7 @@ function ShoppingBasketItemCard({ orderItemId, ...props }) {
                 className='
                   text-primary
                   menu-item-info
-                  p-1
+                  py-1 px-2
                   position-absolute
                   end-0
                   top-0
