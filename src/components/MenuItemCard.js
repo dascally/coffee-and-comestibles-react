@@ -1,15 +1,18 @@
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeItemQuantity } from '../features/order/orderSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfo } from '@fortawesome/free-solid-svg-icons';
 import {
-  Row,
-  Col,
   Button,
   Card,
+  CloseButton,
+  Col,
+  Dropdown,
   Image,
   OverlayTrigger,
   Popover,
+  Row,
 } from 'react-bootstrap';
 
 function MenuItemCard({ id }) {
@@ -17,8 +20,35 @@ function MenuItemCard({ id }) {
   const { name, description, image, allergens, price, options } = useSelector(
     (state) => state.menu.find((menuItem) => id === menuItem._id)
   );
+  const [unselectedOptions, setUnselectedOptions] = useState(options.slice());
+  const [selectedOptions, setSelectedOptions] = useState([]);
 
-  const handleAddToBasket = () => {
+  const handleAddOptionClick = (evt) => {
+    const optionName = evt.target.textContent;
+    if (selectedOptions.find((option) => option.name === optionName)) return;
+
+    setSelectedOptions(
+      selectedOptions.concat(
+        options.find((option) => option.name === optionName)
+      )
+    );
+    setUnselectedOptions(
+      unselectedOptions.filter((option) => option.name !== optionName)
+    );
+  };
+
+  const removeOption = (optionName) => {
+    setSelectedOptions(
+      selectedOptions.filter((option) => option.name !== optionName)
+    );
+    setUnselectedOptions(
+      unselectedOptions.concat(
+        options.find((option) => option.name === optionName)
+      )
+    );
+  };
+
+  const handleAddToBasketClick = () => {
     dispatch(changeItemQuantity({ id, quantityChange: 1 }));
   };
 
@@ -74,12 +104,60 @@ function MenuItemCard({ id }) {
                 </Button>
               </OverlayTrigger>
             </div>
-            <Card.Text>{description}</Card.Text>
+
+            <Card.Text className='fs-6 mb-2'>
+              {(price / 100).toLocaleString('en-US', {
+                style: 'currency',
+                currency: 'USD',
+              })}
+            </Card.Text>
+            <Card.Text className='mb-2'>{description}</Card.Text>
+
+            {selectedOptions.map((option) => {
+              return (
+                <Row className='mb-1'>
+                  <Col xs={5} sm={5} md={4} lg={5} xl={4}>
+                    <label htmlFor='' className='text-nowrap'>
+                      {option.name}
+                    </label>
+                  </Col>
+                  <Col className='d-flex align-items-center'>
+                    <select name='' id='' style={{ width: '13ch' }}>
+                      {option.suboptions.map((suboption) => (
+                        <option>{suboption}</option>
+                      ))}
+                    </select>
+                    <CloseButton
+                      aria-label='Remove option'
+                      className='ms-2'
+                      onClick={(evt) => {
+                        removeOption(option.name);
+                      }}
+                    />
+                  </Col>
+                </Row>
+              );
+            })}
+            {unselectedOptions.length ? (
+              <Dropdown className='mt-2'>
+                <Dropdown.Toggle variant='secondary'>
+                  Add option
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  {unselectedOptions.map((option) => (
+                    <Dropdown.Item onClick={handleAddOptionClick}>
+                      {option.name}
+                    </Dropdown.Item>
+                  ))}
+                </Dropdown.Menu>
+              </Dropdown>
+            ) : null}
+
             <Button
               type='button'
               variant='primary'
-              className='d-block ms-auto'
-              onClick={handleAddToBasket}
+              className='d-block ms-auto mt-2'
+              onClick={handleAddToBasketClick}
             >
               Add 1 to basket
             </Button>
