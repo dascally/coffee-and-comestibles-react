@@ -6,8 +6,10 @@ import ShoppingBasket from '../components/ShoppingBasket.js';
 
 const structureMenuData = (flatMenuData) => {
   const structuredMenuData = [];
+
   flatMenuData.forEach((menuItem) => {
     const sectionName = menuItem.menuSection;
+
     let section = structuredMenuData.find(
       (section) => section.sectionName === sectionName
     );
@@ -16,10 +18,8 @@ const structureMenuData = (flatMenuData) => {
       structuredMenuData.push(section);
     }
 
-    const newMenuItem = { ...menuItem, image: { ...menuItem.image } };
-    newMenuItem.image.src = `${process.env.PUBLIC_URL}/menu/${newMenuItem.image.src}`;
+    const newMenuItem = { ...menuItem };
     delete newMenuItem.menuSection;
-
     section.items.push(newMenuItem);
   });
   return structuredMenuData;

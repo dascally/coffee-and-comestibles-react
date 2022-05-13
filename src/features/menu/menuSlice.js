@@ -10,7 +10,13 @@ const menuSlice = createSlice({
   initialState: [],
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(fetchMenu.fulfilled, (state, action) => action.payload);
+    builder.addCase(fetchMenu.fulfilled, (state, action) => {
+      const menu = action.payload;
+      menu.forEach((menuItem) => {
+        menuItem.image.src = `${process.env.PUBLIC_URL}/menu/${menuItem.image.src}`;
+      });
+      return menu;
+    });
   },
 });
 

@@ -27,7 +27,7 @@ function MenuItemCard({ id }) {
       <Row className='g-0'>
         <Col sm='auto'>
           <Image
-            src={`menu/${image.src}`}
+            src={image.src}
             alt={image.alt}
             rounded
             className='
