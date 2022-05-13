@@ -20,4 +20,7 @@ const menuSlice = createSlice({
   },
 });
 
+export const selectMenuItemById = (id) => (state) =>
+  state.menu.find((item) => item._id === id);
+
 export default menuSlice.reducer;

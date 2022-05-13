@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeItemQuantity } from '../features/order/orderSlice';
+import { addItem } from '../features/order/orderSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfo } from '@fortawesome/free-solid-svg-icons';
 import {
@@ -64,8 +64,21 @@ function MenuItemCard({ id }) {
     setSelectedOptions(newSelectedOptions);
   };
 
-  const handleAddToBasketClick = () => {
-    dispatch(changeItemQuantity({ id, quantityChange: 1 }));
+  const handleAddToBasketClick = (evt) => {
+    const orderItemOptionSelections = {};
+    selectedOptions.forEach((option) => {
+      orderItemOptionSelections[option.name] = option.selected;
+    });
+
+    dispatch(
+      addItem({
+        menuItem: id,
+        selectedOptions: orderItemOptionSelections,
+      })
+    );
+
+    setSelectedOptions([]);
+    setUnselectedOptions(options.slice());
   };
 
   return (
@@ -189,7 +202,7 @@ function MenuItemCard({ id }) {
               className='d-block ms-auto mt-2'
               onClick={handleAddToBasketClick}
             >
-              Add 1 to basket
+              Add to basket
             </Button>
           </Card.Body>
         </Col>
