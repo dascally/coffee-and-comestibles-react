@@ -22,6 +22,23 @@ const structureMenuData = (flatMenuData) => {
     delete newMenuItem.menuSection;
     section.items.push(newMenuItem);
   });
+
+  structuredMenuData.sort((a, b) => {
+    // Reversing this makes it convenient to order names not in this list at
+    // the end
+    const order = [
+      'Hot drinks',
+      'Cold drinks',
+      'Baked savory',
+      'Baked sweets',
+    ].reverse();
+
+    const aOrdinal = order.indexOf(a.sectionName);
+    const bOrdinal = order.indexOf(b.sectionName);
+
+    return bOrdinal - aOrdinal;
+  });
+
   return structuredMenuData;
 };
 
