@@ -43,6 +43,7 @@ const AddSavedPayment = () => {
       }
 
       setIsSubmitting(false);
+      setOpen(false);
     });
   };
 
