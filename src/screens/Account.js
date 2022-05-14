@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Col, Container, Nav, Row } from 'react-bootstrap';
+import { Button, Col, Container, Nav, Row } from 'react-bootstrap';
 import { viewAccountInfo } from '../features/user/userSlice';
 import SavedPaymentCard from '../components/SavedPaymentCard';
 import AddSavedPayment from '../components/AddSavedPayment';
@@ -12,6 +12,7 @@ export default function Account() {
   const rewards = useSelector((state) => state.user?.rewards);
   const savedOrders = useSelector((state) => state.user?.savedOrders);
   const savedPayments = useSelector((state) => state.user?.savedPayments);
+  const [showAddPayment, setShowAddPayment] = useState(false);
 
   useEffect(() => {
     if (userId) {
@@ -75,7 +76,19 @@ export default function Account() {
               </Row>
               <Row>
                 <Col>
-                  <AddSavedPayment />
+                  <Button
+                    onClick={() => {
+                      setShowAddPayment(!showAddPayment);
+                    }}
+                    variant='secondary'
+                    size='sm'
+                  >
+                    {!showAddPayment ? 'Add a new payment method' : 'Cancel'}
+                  </Button>
+                  <AddSavedPayment
+                    open={showAddPayment}
+                    setOpen={setShowAddPayment}
+                  />
                 </Col>
               </Row>
             </Container>
