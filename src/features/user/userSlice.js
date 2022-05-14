@@ -28,6 +28,17 @@ export const viewAccountInfo = createAsyncThunk(
   }
 );
 
+export const viewSavedPayments = createAsyncThunk(
+  'user/viewSavedPayments',
+  async ({ userId, jwt }, { rejectWithValue }) => {
+    try {
+      return await userService.getSavedPayments(userId, jwt);
+    } catch (err) {
+      throw rejectWithValue({ ...err });
+    }
+  }
+);
+
 export const addSavedPayment = createAsyncThunk(
   'user/addSavedPayment',
   async ({
@@ -136,6 +147,18 @@ const userSlice = createSlice({
         ...action.payload,
       }))
       .addCase(viewAccountInfo.rejected, (state, action) => {
+        if (action.payload.status === 401) {
+          localStorage.removeItem('user');
+          return null;
+        }
+      });
+
+    builder
+      .addCase(viewSavedPayments.fulfilled, (state, action) => ({
+        ...state,
+        savedPayments: action.payload,
+      }))
+      .addCase(viewSavedPayments.rejected, (state, action) => {
         if (action.payload.status === 401) {
           localStorage.removeItem('user');
           return null;
