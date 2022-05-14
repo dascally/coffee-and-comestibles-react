@@ -58,16 +58,20 @@ function ShoppingBasketItemCard({ orderItemId, ...props }) {
                 currency: 'USD',
               })}
             </Card.Text>
-            <Card.Text className='mb-0'>Selected options:</Card.Text>
-            <ul>
-              {Object.entries(orderItem.selectedOptions).map(
-                ([option, selectedValue]) => (
-                  <li key={option}>
-                    {option}: {selectedValue}
-                  </li>
-                )
-              )}
-            </ul>
+            {Object.keys(orderItem.selectedOptions).length ? (
+              <>
+                <Card.Text className='mb-0'>Selected options:</Card.Text>
+                <ul>
+                  {Object.entries(orderItem.selectedOptions).map(
+                    ([option, selectedValue]) => (
+                      <li key={option}>
+                        {option}: {selectedValue}
+                      </li>
+                    )
+                  )}
+                </ul>
+              </>
+            ) : null}
           </Card.Body>
         </Col>
       </Row>

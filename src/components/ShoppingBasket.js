@@ -57,12 +57,8 @@ export default function ShoppingBasket() {
         <Offcanvas.Body>
           <PurchaseList />
           <div className='d-flex justify-content-center mt-2'>
-            <Link
-              to='/order-confirmation.html'
-              className='btn btn-primary'
-              // onClick={() => handleRemoveFromBasket('*', Infinity)}
-            >
-              Place your order
+            <Link to='/checkout.html' className='btn btn-primary'>
+              Go to checkout
             </Link>
           </div>
         </Offcanvas.Body>

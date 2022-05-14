@@ -8,7 +8,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import App from './App.js';
 import Home from './screens/Home.js';
 import Menu from './screens/Menu.js';
-import OrderConfirmation from './screens/OrderConfirmation.js';
+import Checkout from './screens/Checkout.js';
 import Events from './screens/Events.js';
 import About from './screens/About.js';
 import Contact from './screens/Contact.js';
@@ -28,10 +28,7 @@ render(
           </Route>
           <Route path='/' element={<App />}>
             <Route path='/menu.html' element={<Menu />} />
-            <Route
-              path='/order-confirmation.html'
-              element={<OrderConfirmation />}
-            />
+            <Route path='/checkout.html' element={<Checkout />} />
             <Route path='/events.html' element={<Events />} />
             <Route path='/about.html' element={<About />} />
             <Route path='/contact.html' element={<Contact />} />

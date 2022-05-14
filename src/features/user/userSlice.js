@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import loginService from '../../services/login';
 import userService from '../../services/user';
+import { placeOrder } from '../order/orderSlice';
 
 export const login = createAsyncThunk('user/login', ({ email, password }) => {
   return loginService.login(email, password);
@@ -104,6 +105,7 @@ const userSlice = createSlice({
         rewards: null,
         savedOrders: [],
         savedPayments: [],
+        invoices: [],
       };
       return user;
     },
@@ -123,22 +125,27 @@ const userSlice = createSlice({
         rewards: null,
         savedOrders: [],
         savedPayments: [],
+        invoices: [],
       };
       return user;
     });
-    builder.addCase(viewAccountInfo.fulfilled, (state, action) => ({
-      ...state,
-      ...action.payload,
-    }));
-    builder.addCase(viewAccountInfo.rejected, (state, action) => {
-      if (action.payload.status === 401) {
-        localStorage.removeItem('user');
-        return null;
-      }
-    });
+
+    builder
+      .addCase(viewAccountInfo.fulfilled, (state, action) => ({
+        ...state,
+        ...action.payload,
+      }))
+      .addCase(viewAccountInfo.rejected, (state, action) => {
+        if (action.payload.status === 401) {
+          localStorage.removeItem('user');
+          return null;
+        }
+      });
+
     builder.addCase(addSavedPayment.fulfilled, (state, action) => {
       state.savedPayments.push(action.payload);
     });
+
     builder.addCase(deleteSavedPayment.fulfilled, (state, action) => {
       return {
         ...state,
@@ -147,6 +154,7 @@ const userSlice = createSlice({
         ),
       };
     });
+
     builder.addCase(editSavedPayment.fulfilled, (state, action) => {
       return {
         ...state,
@@ -154,6 +162,10 @@ const userSlice = createSlice({
           payment._id === action.payload._id ? action.payload : payment
         ),
       };
+    });
+
+    builder.addCase(placeOrder.fulfilled, (state, action) => {
+      state.invoices.push(action.payload);
     });
   },
 });
