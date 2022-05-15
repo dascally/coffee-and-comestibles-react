@@ -1,9 +1,7 @@
 import { useSelector } from 'react-redux';
-import { selectOrderItemById } from '../features/order/orderSlice';
 import { selectMenuItemById } from '../features/menu/menuSlice';
 
-export default function OrderItemTableRow({ orderItemId }) {
-  const orderItem = useSelector(selectOrderItemById(orderItemId));
+export default function OrderItemTableRow({ orderItem }) {
   const { name, price } = useSelector(selectMenuItemById(orderItem.menuItem));
 
   return (

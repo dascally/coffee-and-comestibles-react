@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { viewSavedPayments } from '../features/user/userSlice';
 import { placeOrder } from '../features/order/orderSlice';
 import { Button, Col, Container, Modal, Row, Table } from 'react-bootstrap';
@@ -8,6 +9,7 @@ import AddSavedPayment from '../components/AddSavedPayment';
 
 export default function Checkout() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const jwt = useSelector((state) => state.user?.token);
   const userId = useSelector((state) => state.user?.id);
   const firstName = useSelector((state) => state.user?.firstName);
@@ -39,7 +41,11 @@ export default function Checkout() {
         contactName,
         ccInfo: ccInfoId,
       })
-    );
+    )
+      .unwrap()
+      .then((invoice) => {
+        navigate(`/order-confirmation/${invoice._id}`);
+      });
   };
 
   return (
@@ -73,7 +79,7 @@ export default function Checkout() {
                 {orderList.map((orderItem) => {
                   return (
                     <OrderItemTableRow
-                      orderItemId={orderItem.id}
+                      orderItem={orderItem}
                       key={orderItem.id}
                     />
                   );
@@ -137,8 +143,9 @@ export default function Checkout() {
                     <br />
                     {selectedPayment ? (
                       <p
+                        key={selectedPayment._id}
                         className='mb-0'
-                        style={{ 'margin-inline-start': '16ch' }}
+                        style={{ marginInlineStart: '16ch' }}
                       >
                         xxxx-xxxx-xxxx-{selectedPayment.cardNumberFinalDigits}
                         <br />

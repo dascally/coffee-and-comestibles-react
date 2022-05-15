@@ -13,6 +13,7 @@ import Events from './screens/Events.js';
 import About from './screens/About.js';
 import Contact from './screens/Contact.js';
 import Account from './screens/Account.js';
+import OrderConfirmation from './screens/OrderConfirmation.js';
 
 render(
   <StrictMode>
@@ -33,6 +34,10 @@ render(
             <Route path='/about.html' element={<About />} />
             <Route path='/contact.html' element={<Contact />} />
             <Route path='/account.html' element={<Account />} />
+            <Route
+              path='/order-confirmation/:invoiceId'
+              element={<OrderConfirmation />}
+            />
           </Route>
         </Routes>
       </BrowserRouter>
