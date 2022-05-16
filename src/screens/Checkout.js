@@ -25,6 +25,7 @@ export default function Checkout() {
   const [showAddPayment, setShowAddPayment] = useState(false);
   const [saveOrder, setSaveOrder] = useState(false);
   const [saveOrderName, setSaveOrderName] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (userId) {
@@ -35,23 +36,29 @@ export default function Checkout() {
   const handlePlaceOrderClick = async (evt) => {
     evt.preventDefault();
 
-    if (saveOrder) {
-      await dispatch(
-        addSavedOrder({ userId, jwt, name: saveOrderName, orderList })
-      );
+    try {
+      setIsSubmitting(true);
+      if (saveOrder) {
+        await dispatch(
+          addSavedOrder({ userId, jwt, name: saveOrderName, orderList })
+        );
+      }
+
+      const invoice = await dispatch(
+        placeOrder({
+          userId,
+          orderList,
+          contactPhone,
+          contactName,
+          ccInfo: ccInfoId,
+        })
+      ).unwrap();
+
+      navigate(`/order-confirmation/${invoice._id}`);
+    } catch (err) {
+      setIsSubmitting(false);
+      throw err;
     }
-
-    const invoice = await dispatch(
-      placeOrder({
-        userId,
-        orderList,
-        contactPhone,
-        contactName,
-        ccInfo: ccInfoId,
-      })
-    ).unwrap();
-
-    navigate(`/order-confirmation/${invoice._id}`);
   };
 
   return (
@@ -209,7 +216,11 @@ export default function Checkout() {
                       />
                     </div>
                   ) : null}
-                  <Button type='submit' className='mt-1'>
+                  <Button
+                    type='submit'
+                    className='mt-1'
+                    disabled={isSubmitting}
+                  >
                     Place order
                   </Button>
                 </form>
