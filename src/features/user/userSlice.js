@@ -102,6 +102,13 @@ export const editSavedPayment = createAsyncThunk(
   }
 );
 
+export const addSavedOrder = createAsyncThunk(
+  'user/addSavedOrder',
+  async ({ userId, jwt, name, orderList }) => {
+    return await userService.addSavedOrder(userId, jwt, { name, orderList });
+  }
+);
+
 const userSlice = createSlice({
   name: 'user',
   initialState: null,
@@ -189,6 +196,10 @@ const userSlice = createSlice({
 
     builder.addCase(placeOrder.fulfilled, (state, action) => {
       state.invoices.push(action.payload);
+    });
+
+    builder.addCase(addSavedOrder.fulfilled, (state, action) => {
+      state.savedOrders.push(action.payload);
     });
   },
 });

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { viewSavedPayments } from '../features/user/userSlice';
+import { viewSavedPayments, addSavedOrder } from '../features/user/userSlice';
 import { placeOrder } from '../features/order/orderSlice';
 import { Button, Col, Container, Modal, Row, Table } from 'react-bootstrap';
 import OrderItemTableRow from '../components/OrderItemTableRow';
@@ -23,6 +23,8 @@ export default function Checkout() {
     state.user?.savedPayments.find((payment) => payment._id === ccInfoId)
   );
   const [showAddPayment, setShowAddPayment] = useState(false);
+  const [saveOrder, setSaveOrder] = useState(false);
+  const [saveOrderName, setSaveOrderName] = useState('');
 
   useEffect(() => {
     if (userId) {
@@ -30,10 +32,16 @@ export default function Checkout() {
     }
   }, [dispatch, userId, jwt]);
 
-  const handlePlaceOrderClick = (evt) => {
+  const handlePlaceOrderClick = async (evt) => {
     evt.preventDefault();
 
-    dispatch(
+    if (saveOrder) {
+      await dispatch(
+        addSavedOrder({ userId, jwt, name: saveOrderName, orderList })
+      );
+    }
+
+    const invoice = await dispatch(
       placeOrder({
         userId,
         orderList,
@@ -41,11 +49,9 @@ export default function Checkout() {
         contactName,
         ccInfo: ccInfoId,
       })
-    )
-      .unwrap()
-      .then((invoice) => {
-        navigate(`/order-confirmation/${invoice._id}`);
-      });
+    ).unwrap();
+
+    navigate(`/order-confirmation/${invoice._id}`);
   };
 
   return (
@@ -159,7 +165,7 @@ export default function Checkout() {
                       </p>
                     ) : null}
                   </div>
-                  <div className='mb-2'>
+                  <div className='mb-1' style={{ marginInlineStart: '15ch' }}>
                     <Button
                       type='button'
                       variant='secondary'
@@ -171,7 +177,41 @@ export default function Checkout() {
                       Add a new payment method
                     </Button>
                   </div>
-                  <Button type='submit'>Place order</Button>
+                  <div className='mb-1'>
+                    <label htmlFor='save-order' style={{ width: '15ch' }}>
+                      Save this order?
+                    </label>
+                    <input
+                      type='checkbox'
+                      name='save-order'
+                      checked={saveOrder}
+                      onChange={(evt) => {
+                        setSaveOrder(evt.target.checked);
+                      }}
+                    />
+                  </div>
+                  {saveOrder ? (
+                    <div className='mb-1'>
+                      <label
+                        htmlFor='save-order-name'
+                        style={{ width: '15ch' }}
+                      >
+                        Order name
+                      </label>
+                      <input
+                        type='text'
+                        name='save-order-name'
+                        value={saveOrderName}
+                        onChange={(evt) => {
+                          setSaveOrderName(evt.target.value);
+                        }}
+                        required
+                      />
+                    </div>
+                  ) : null}
+                  <Button type='submit' className='mt-1'>
+                    Place order
+                  </Button>
                 </form>
               </Col>
             </Row>

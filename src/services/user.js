@@ -153,6 +153,32 @@ const editSavedPayment = async (
   }
 };
 
+const addSavedOrder = async (userId, jwt, { name, orderList }) => {
+  try {
+    const order = { name, orderList };
+    console.log('savedOrder', JSON.stringify(order));
+
+    const result = await fetch(`${baseUrl}/users/${userId}/savedOrders`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${jwt}`,
+      },
+      body: JSON.stringify(order),
+    });
+
+    if (!result.ok) {
+      const err = new Error('Error adding new saved order.');
+      err.status = result.status;
+      throw err;
+    }
+
+    return result.json();
+  } catch (err) {
+    throw err;
+  }
+};
+
 const service = {
   getRewards,
   getSavedOrders,
@@ -160,5 +186,6 @@ const service = {
   addSavedPayment,
   deleteSavedPayment,
   editSavedPayment,
+  addSavedOrder,
 };
 export default service;
