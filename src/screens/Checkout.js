@@ -135,6 +135,7 @@ export default function Checkout() {
                       <option value='' label='Choose a card' />
                       {savedPayments.map((payment) => (
                         <option
+                          key={payment._id}
                           value={payment._id}
                           label={`xxxx-xxxx-xxxx-${payment.cardNumberFinalDigits}`}
                         />

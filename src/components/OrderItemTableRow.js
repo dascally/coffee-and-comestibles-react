@@ -2,7 +2,13 @@ import { useSelector } from 'react-redux';
 import { selectMenuItemById } from '../features/menu/menuSlice';
 
 export default function OrderItemTableRow({ orderItem }) {
-  const { name, price } = useSelector(selectMenuItemById(orderItem.menuItem));
+  const { name, price } = useSelector(
+    selectMenuItemById(
+      typeof orderItem.menuItem === 'string'
+        ? orderItem.menuItem
+        : orderItem.menuItem._id
+    )
+  );
 
   return (
     <tr>
