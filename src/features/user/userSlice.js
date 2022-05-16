@@ -6,11 +6,7 @@ import { placeOrder } from '../order/orderSlice';
 export const register = createAsyncThunk(
   'user/register',
   ({ firstName, lastName, email, password }, { rejectWithValue }) => {
-    try {
-      return userService.register({ firstName, lastName, email, password });
-    } catch (err) {
-      throw rejectWithValue({ ...err });
-    }
+    return userService.register({ firstName, lastName, email, password });
   }
 );
 

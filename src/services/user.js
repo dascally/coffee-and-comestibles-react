@@ -4,19 +4,20 @@ const register = async ({ firstName, lastName, email, password }) => {
   try {
     const newUser = { firstName, lastName, email, password };
 
-    const result = await fetch(`${baseUrl}/users`, {
+    const res = await fetch(`${baseUrl}/users`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newUser),
     });
 
-    if (!result.ok) {
-      const err = new Error('Error registering new account.');
-      err.status = result.status;
+    if (!res.ok) {
+      const body = await res.json();
+      const err = new Error(body.message ?? 'Error registering new account.');
+      err.status = res.status;
       throw err;
     }
 
-    const user = await result.json();
+    const user = await res.json();
     return user;
   } catch (err) {
     throw err;

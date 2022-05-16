@@ -14,6 +14,7 @@ export default function LoginDropdown(props) {
   const [registerEmail, setRegisterEmail] = useState('');
   const [registerPassword, setRegisterPassword] = useState('');
   const [registerRemember, setRegisterRemember] = useState(true);
+  const [registerError, setRegisterError] = useState('');
 
   const handleLoginSubmit = (evt) => {
     evt.preventDefault();
@@ -54,14 +55,18 @@ export default function LoginDropdown(props) {
         if (registerRemember) {
           localStorage.setItem('user', JSON.stringify(user));
         }
-      });
 
-    setRegisterFirstname('');
-    setRegisterLastname('');
-    setRegisterEmail('');
-    setRegisterPassword('');
-    setRegisterRemember(true);
-    setShowRegisterAccount(false);
+        setShowRegisterAccount(false);
+        setRegisterFirstname('');
+        setRegisterLastname('');
+        setRegisterEmail('');
+        setRegisterPassword('');
+        setRegisterRemember(true);
+        setRegisterError('');
+      })
+      .catch((err) => {
+        setRegisterError(err.message);
+      });
   };
 
   return (
@@ -77,6 +82,25 @@ export default function LoginDropdown(props) {
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleRegisterSubmit}>
+            {registerError ? (
+              <Row className='mb-2'>
+                <Col>
+                  <p
+                    className='
+                      text-danger
+                      fw-bold
+                      border
+                      border-danger
+                      rounded
+                      px-2 py-1
+                      mb-0
+                    '
+                  >
+                    {registerError}
+                  </p>
+                </Col>
+              </Row>
+            ) : null}
             <Row className='mb-1 g-1'>
               <Form.Group controlId='register-firstname' as={Col}>
                 <Form.Label className='mb-1' style={{ width: '14ch' }}>
