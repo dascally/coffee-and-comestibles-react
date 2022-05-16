@@ -204,6 +204,9 @@ const userSlice = createSlice({
   },
 });
 
+export const selectSavedOrderById = (id) => (state) =>
+  state.user.savedOrders.find((order) => order._id === id);
+
 export const { setUser, logout } = userSlice.actions;
 
 export default userSlice.reducer;

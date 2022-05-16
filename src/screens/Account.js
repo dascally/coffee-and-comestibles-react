@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Col, Container, Nav, Row } from 'react-bootstrap';
+import { Accordion, Button, Col, Container, Nav, Row } from 'react-bootstrap';
 import { viewAccountInfo } from '../features/user/userSlice';
 import SavedPaymentCard from '../components/SavedPaymentCard';
 import AddSavedPayment from '../components/AddSavedPayment';
+import SavedOrderAccordionItem from '../components/SavedOrderAccordionItem';
 
 export default function Account() {
   const dispatch = useDispatch();
@@ -64,6 +65,11 @@ export default function Account() {
             </Container>
             <Container as='section' id='orders'>
               <h2>Saved orders</h2>
+              <Accordion defaultActiveKey={savedOrders[0]?._id}>
+                {savedOrders.map((savedOrder) => (
+                  <SavedOrderAccordionItem id={savedOrder._id} />
+                ))}
+              </Accordion>
             </Container>
             <Container as='section' id='payments'>
               <h2>Saved payments</h2>
