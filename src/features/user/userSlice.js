@@ -3,6 +3,17 @@ import loginService from '../../services/login';
 import userService from '../../services/user';
 import { placeOrder } from '../order/orderSlice';
 
+export const register = createAsyncThunk(
+  'user/register',
+  ({ firstName, lastName, email, password }, { rejectWithValue }) => {
+    try {
+      return userService.register({ firstName, lastName, email, password });
+    } catch (err) {
+      throw rejectWithValue({ ...err });
+    }
+  }
+);
+
 export const login = createAsyncThunk('user/login', ({ email, password }) => {
   return loginService.login(email, password);
 });
@@ -141,6 +152,21 @@ const userSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(register.fulfilled, (state, action) => {
+      const user = {
+        token: action.payload.token,
+        id: action.payload.id,
+        email: action.payload.email,
+        firstName: action.payload.firstName,
+        lastName: action.payload.lastName,
+        rewards: null,
+        savedOrders: [],
+        savedPayments: [],
+        invoices: [],
+      };
+      return user;
+    });
+
     builder.addCase(login.fulfilled, (state, action) => {
       const user = {
         token: action.payload.token,

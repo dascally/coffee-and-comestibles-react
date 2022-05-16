@@ -1,5 +1,28 @@
 const baseUrl = process.env.REACT_APP_SERVICE_URL;
 
+const register = async ({ firstName, lastName, email, password }) => {
+  try {
+    const newUser = { firstName, lastName, email, password };
+
+    const result = await fetch(`${baseUrl}/users`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newUser),
+    });
+
+    if (!result.ok) {
+      const err = new Error('Error registering new account.');
+      err.status = result.status;
+      throw err;
+    }
+
+    const user = await result.json();
+    return user;
+  } catch (err) {
+    throw err;
+  }
+};
+
 const getRewards = async (userId, jwt) => {
   try {
     const result = await fetch(`${baseUrl}/users/${userId}`, {
@@ -200,6 +223,7 @@ const deleteSavedOrder = async (userId, jwt, orderId) => {
 };
 
 const service = {
+  register,
   getRewards,
   getSavedOrders,
   getSavedPayments,
