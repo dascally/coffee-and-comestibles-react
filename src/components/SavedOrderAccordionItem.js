@@ -1,10 +1,20 @@
-import { useSelector } from 'react-redux';
-import { selectSavedOrderById } from '../features/user/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  selectSavedOrderById,
+  deleteSavedOrder,
+} from '../features/user/userSlice';
 import { Accordion, Button, Table } from 'react-bootstrap';
 import OrderItemTableRow from './OrderItemTableRow';
 
-export default function SavedOrderAccordionItem({ id }) {
-  const savedOrder = useSelector(selectSavedOrderById(id));
+export default function SavedOrderAccordionItem({ orderId }) {
+  const dispatch = useDispatch();
+  const jwt = useSelector((state) => state.user?.token);
+  const userId = useSelector((state) => state.user?.id);
+  const savedOrder = useSelector(selectSavedOrderById(orderId));
+
+  const handleDeleteClick = (evt) => {
+    dispatch(deleteSavedOrder({ jwt, userId, orderId }));
+  };
 
   return (
     <Accordion.Item eventKey={savedOrder._id} key={savedOrder._id}>
@@ -41,7 +51,11 @@ export default function SavedOrderAccordionItem({ id }) {
             </tr>
           </tbody>
         </Table>
-        <Button variant='link' className='text-danger p-0' onClick={() => {}}>
+        <Button
+          variant='link'
+          className='text-danger p-0'
+          onClick={handleDeleteClick}
+        >
           Delete
         </Button>
       </Accordion.Body>

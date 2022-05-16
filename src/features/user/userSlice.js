@@ -109,6 +109,14 @@ export const addSavedOrder = createAsyncThunk(
   }
 );
 
+export const deleteSavedOrder = createAsyncThunk(
+  'user/deleteSavedOrder',
+  async ({ userId, jwt, orderId }) => {
+    await userService.deleteSavedOrder(userId, jwt, orderId);
+    return orderId;
+  }
+);
+
 const userSlice = createSlice({
   name: 'user',
   initialState: null,
@@ -200,6 +208,15 @@ const userSlice = createSlice({
 
     builder.addCase(addSavedOrder.fulfilled, (state, action) => {
       state.savedOrders.push(action.payload);
+    });
+
+    builder.addCase(deleteSavedOrder.fulfilled, (state, action) => {
+      return {
+        ...state,
+        savedOrders: state.savedOrders.filter(
+          (order) => order._id !== action.payload
+        ),
+      };
     });
   },
 });

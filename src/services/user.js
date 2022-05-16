@@ -179,6 +179,26 @@ const addSavedOrder = async (userId, jwt, { name, orderList }) => {
   }
 };
 
+const deleteSavedOrder = async (userId, jwt, orderId) => {
+  try {
+    const result = await fetch(
+      `${baseUrl}/users/${userId}/savedOrders/${orderId}`,
+      {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${jwt}` },
+      }
+    );
+
+    if (result.status !== 204 && result.status !== 404) {
+      const err = new Error('Error deleting saved order.');
+      err.status = result.status;
+      throw err;
+    }
+  } catch (err) {
+    throw err;
+  }
+};
+
 const service = {
   getRewards,
   getSavedOrders,
@@ -187,5 +207,6 @@ const service = {
   deleteSavedPayment,
   editSavedPayment,
   addSavedOrder,
+  deleteSavedOrder,
 };
 export default service;

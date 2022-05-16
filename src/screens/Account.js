@@ -65,9 +65,12 @@ export default function Account() {
             </Container>
             <Container as='section' id='orders'>
               <h2>Saved orders</h2>
-              <Accordion defaultActiveKey={savedOrders[0]?._id}>
+              <Accordion>
                 {savedOrders.map((savedOrder) => (
-                  <SavedOrderAccordionItem id={savedOrder._id} />
+                  <SavedOrderAccordionItem
+                    key={savedOrder._id}
+                    orderId={savedOrder._id}
+                  />
                 ))}
               </Accordion>
             </Container>
