@@ -15,6 +15,12 @@ import Contact from './screens/Contact.js';
 import Account from './screens/Account.js';
 import OrderConfirmation from './screens/OrderConfirmation.js';
 
+import Rewards from './components/Rewards';
+import SavedOrders from './components/SavedOrders';
+import SavedPayments from './components/SavedPayments';
+import ChangeInfo from './components/ChangeInfo';
+import AccountOverview from './components/AccountOverview';
+
 render(
   <StrictMode>
     <Provider store={store}>
@@ -33,7 +39,13 @@ render(
             <Route path='/events.html' element={<Events />} />
             <Route path='/about.html' element={<About />} />
             <Route path='/contact.html' element={<Contact />} />
-            <Route path='/account.html' element={<Account />} />
+            <Route path='/account/' element={<Account />}>
+              <Route path='rewards.html' element={<Rewards />} />
+              <Route path='saved-orders.html' element={<SavedOrders />} />
+              <Route path='saved-payments.html' element={<SavedPayments />} />
+              <Route path='change-info.html' element={<ChangeInfo />} />
+              <Route index element={<AccountOverview />} />
+            </Route>
             <Route
               path='/order-confirmation/:invoiceId'
               element={<OrderConfirmation />}

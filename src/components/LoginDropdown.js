@@ -45,13 +45,22 @@ export default function LoginDropdown(props) {
         <>
           <Dropdown.Toggle as={Nav.Link}>Account</Dropdown.Toggle>
           <Dropdown.Menu align='end' className='bg-light mb-2 shadow'>
-            <Dropdown.Item as={Link} to='/account.html'>
+            <Dropdown.Item as={Link} to='/account'>
               Hi, {user.firstName}!
             </Dropdown.Item>
             <Dropdown.Divider />
-            <Dropdown.Item>Rewards</Dropdown.Item>
-            <Dropdown.Item>Favorite Orders</Dropdown.Item>
-            <Dropdown.Item>Account Settings</Dropdown.Item>
+            <Dropdown.Item as={Link} to='/account/rewards.html'>
+              Rewards
+            </Dropdown.Item>
+            <Dropdown.Item as={Link} to='/account/saved-orders.html'>
+              Favorite orders
+            </Dropdown.Item>
+            <Dropdown.Item as={Link} to='/account/saved-payments.html'>
+              Saved payments
+            </Dropdown.Item>
+            <Dropdown.Item as={Link} to='/account/change-info.html'>
+              Change account info
+            </Dropdown.Item>
             <Dropdown.Divider />
             <Dropdown.Item onClick={handleLogoutClick}>Logout</Dropdown.Item>
           </Dropdown.Menu>
