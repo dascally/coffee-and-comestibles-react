@@ -29,6 +29,7 @@ export default function LoginDropdown(props) {
         }
 
         setShowDropdown(false);
+        setLoginError('');
       })
       .catch((err) => {
         setLoginError(err.message);
