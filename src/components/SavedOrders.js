@@ -8,14 +8,18 @@ export default function SavedOrders() {
   return (
     <Container as='section' id='orders'>
       <h2>Saved orders</h2>
-      <Accordion>
-        {savedOrders.map((savedOrder) => (
-          <SavedOrderAccordionItem
-            key={savedOrder._id}
-            orderId={savedOrder._id}
-          />
-        ))}
-      </Accordion>
+      {!savedOrders.length ? (
+        <p>You haven't saved any orders yet!</p>
+      ) : (
+        <Accordion>
+          {savedOrders.map((savedOrder) => (
+            <SavedOrderAccordionItem
+              key={savedOrder._id}
+              orderId={savedOrder._id}
+            />
+          ))}
+        </Accordion>
+      )}
     </Container>
   );
 }
