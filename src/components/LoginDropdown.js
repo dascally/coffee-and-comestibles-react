@@ -10,6 +10,7 @@ export default function LoginDropdown(props) {
   const user = useSelector((state) => state.user);
   const [showDropdown, setShowDropdown] = useState(false);
   const [showRegisterAccount, setShowRegisterAccount] = useState(false);
+  const [loginError, setLoginError] = useState('');
 
   const handleLoginSubmit = (evt) => {
     evt.preventDefault();
@@ -26,9 +27,12 @@ export default function LoginDropdown(props) {
         if (form.elements.remember.checked) {
           localStorage.setItem('user', JSON.stringify(user));
         }
-      });
 
-    setShowDropdown(false);
+        setShowDropdown(false);
+      })
+      .catch((err) => {
+        setLoginError(err.message);
+      });
   };
   const handleLogoutClick = () => {
     dispatch(logout());
@@ -81,7 +85,12 @@ export default function LoginDropdown(props) {
                   <Form.Label htmlFor='loginEmail' className='mb-1'>
                     Email
                   </Form.Label>
-                  <Form.Control type='email' name='email' id='loginEmail' />
+                  <Form.Control
+                    type='email'
+                    name='email'
+                    id='loginEmail'
+                    required
+                  />
                 </Form.Group>
                 <Form.Group className='mb-2'>
                   <Form.Label htmlFor='loginPassword' className='mb-1'>
@@ -91,6 +100,7 @@ export default function LoginDropdown(props) {
                     type='password'
                     name='password'
                     id='loginPassword'
+                    required
                   />
                 </Form.Group>
                 <Form.Group className='mb-2'>
@@ -101,6 +111,20 @@ export default function LoginDropdown(props) {
                     label='Remember me'
                   />
                 </Form.Group>
+                {loginError ? (
+                  <p
+                    className='
+                      text-danger
+                      border
+                      border-danger
+                      rounded
+                      px-2 py-1
+                      mb-2
+                    '
+                  >
+                    {loginError}
+                  </p>
+                ) : null}
                 <Form.Group className='d-flex justify-content-center'>
                   <Button type='submit'>Log in</Button>
                 </Form.Group>
@@ -113,7 +137,7 @@ export default function LoginDropdown(props) {
               >
                 New? Make an account.
               </Dropdown.Item>
-              <Dropdown.Item>Forgot password?</Dropdown.Item>
+              <Dropdown.Item disabled>Forgot password?</Dropdown.Item>
             </Dropdown.Menu>
           </>
         )}
