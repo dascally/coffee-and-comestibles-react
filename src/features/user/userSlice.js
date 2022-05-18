@@ -14,6 +14,13 @@ export const login = createAsyncThunk('user/login', ({ email, password }) => {
   return loginService.login(email, password);
 });
 
+export const confirmPassword = createAsyncThunk(
+  'user/confirmPassword',
+  ({ email, password }) => {
+    return loginService.login(email, password);
+  }
+);
+
 export const viewAccountInfo = createAsyncThunk(
   'user/viewAccountInfo',
   async ({ userId, jwt }, { rejectWithValue }) => {

@@ -1,7 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Accordion, Button, Col, Container, Form, Row } from 'react-bootstrap';
+import { confirmPassword } from '../features/user/userSlice';
 
 export default function ChangeInfo() {
+  const dispatch = useDispatch();
+
+  const userEmail = useSelector((state) => state.user.email);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -9,6 +14,8 @@ export default function ChangeInfo() {
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [deletionPassword, setDeletionPassword] = useState('');
+  const [deletionPasswordConfirmed, setDeletionPasswordConfirmed] =
+    useState('');
   const [changePasswordValidated, setChangePasswordValidated] = useState(false);
   const confirmNewPasswordRef = useRef(null);
 
@@ -30,6 +37,20 @@ export default function ChangeInfo() {
 
     // TODO: Dispatch password change action here.
   };
+
+  const handleDeletionConfirmPasswordSubmit = (evt) => {
+    evt.preventDefault();
+
+    dispatch(
+      confirmPassword({ email: userEmail, password: deletionPassword })
+    ).then((action) => {
+      if (action.type.match(/fulfilled$/)) {
+        setDeletionPasswordConfirmed(true);
+      }
+    });
+  };
+
+  const handleDeleteAccountClick = (evt) => {};
 
   const handleConfirmNewPasswordChange = (evt) => {
     setConfirmNewPassword(evt.target.value);
@@ -172,27 +193,39 @@ export default function ChangeInfo() {
           <Accordion.Header>Delete account</Accordion.Header>
           <Accordion.Body className='border border-danger'>
             <p>Are you sure you want to delete your account?</p>
-            <Form>
-              <Form.Group controlId='deletion-password' className='mb-2'>
-                <Form.Label className='mb-1'>
-                  Enter your password to confirm:
-                </Form.Label>
-                <Form.Control
-                  type='password'
-                  name='deletion-password'
-                  required
-                  value={deletionPassword}
-                  onChange={(evt) => {
-                    setDeletionPassword(evt.target.value);
-                  }}
-                />
-              </Form.Group>
+            {!deletionPasswordConfirmed ? (
+              <Form onSubmit={handleDeletionConfirmPasswordSubmit}>
+                <Form.Group controlId='deletion-password' className='mb-2'>
+                  <Form.Label className='mb-1'>
+                    Enter your password to confirm:
+                  </Form.Label>
+                  <Form.Control
+                    type='password'
+                    name='deletion-password'
+                    required
+                    value={deletionPassword}
+                    onChange={(evt) => {
+                      setDeletionPassword(evt.target.value);
+                    }}
+                  />
+                </Form.Group>
+                <div className='d-flex justify-content-center'>
+                  <Button type='submit' variant='danger'>
+                    Confirm password
+                  </Button>
+                </div>
+              </Form>
+            ) : (
               <div className='d-flex justify-content-center'>
-                <Button type='submit' variant='danger'>
+                <Button
+                  type='button'
+                  variant='danger'
+                  onClick={handleDeleteAccountClick}
+                >
                   Delete account
                 </Button>
               </div>
-            </Form>
+            )}
           </Accordion.Body>
         </Accordion.Item>
       </Accordion>
