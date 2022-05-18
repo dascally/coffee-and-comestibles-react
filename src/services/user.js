@@ -24,6 +24,23 @@ const register = async ({ firstName, lastName, email, password }) => {
   }
 };
 
+const deleteAccount = async (userId, jwt) => {
+  try {
+    const result = await fetch(`${baseUrl}/users/${userId}`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${jwt}` },
+    });
+
+    if (result.status !== 204 && result.status !== 404) {
+      const err = new Error('Error deleting user account.');
+      err.status = result.status;
+      throw err;
+    }
+  } catch (err) {
+    throw err;
+  }
+};
+
 const getRewards = async (userId, jwt) => {
   try {
     const result = await fetch(`${baseUrl}/users/${userId}`, {
@@ -225,6 +242,7 @@ const deleteSavedOrder = async (userId, jwt, orderId) => {
 
 const service = {
   register,
+  deleteAccount,
   getRewards,
   getSavedOrders,
   getSavedPayments,

@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Accordion, Button, Col, Container, Form, Row } from 'react-bootstrap';
-import { confirmPassword } from '../features/user/userSlice';
+import { confirmPassword, deleteAccount } from '../features/user/userSlice';
 
 export default function ChangeInfo() {
   const dispatch = useDispatch();
 
+  const userId = useSelector((state) => state.user.id);
+  const userToken = useSelector((state) => state.user.token);
   const userEmail = useSelector((state) => state.user.email);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -50,7 +52,9 @@ export default function ChangeInfo() {
     });
   };
 
-  const handleDeleteAccountClick = (evt) => {};
+  const handleDeleteAccountClick = (evt) => {
+    dispatch(deleteAccount({ userId, jwt: userToken }));
+  };
 
   const handleConfirmNewPasswordChange = (evt) => {
     setConfirmNewPassword(evt.target.value);

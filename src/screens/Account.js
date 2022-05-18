@@ -2,13 +2,14 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { Col, Container, Nav, Row } from 'react-bootstrap';
-import { viewAccountInfo } from '../features/user/userSlice';
+import { viewAccountInfo, logout } from '../features/user/userSlice';
 import { Outlet } from 'react-router-dom';
 
 export default function Account() {
   const dispatch = useDispatch();
   const jwt = useSelector((state) => state.user?.token);
   const userId = useSelector((state) => state.user?.id);
+  const accountDeleted = useSelector((state) => state.user?.deleted);
 
   useEffect(() => {
     if (userId) {
@@ -16,10 +17,20 @@ export default function Account() {
     }
   }, [dispatch, userId, jwt]);
 
+  useEffect(() => {
+    if (accountDeleted) {
+      setTimeout(() => {
+        dispatch(logout());
+      }, 3000);
+    }
+  }, [dispatch, accountDeleted]);
+
   return (
     <Container>
       <h1>Account</h1>
-      {!userId ? (
+      {accountDeleted ? (
+        <p>Account successfully deleted!</p>
+      ) : !userId ? (
         <p>You must be logged in to view account information.</p>
       ) : (
         <Row>

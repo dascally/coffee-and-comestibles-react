@@ -21,6 +21,13 @@ export const confirmPassword = createAsyncThunk(
   }
 );
 
+export const deleteAccount = createAsyncThunk(
+  'user/deleteAccount',
+  ({ userId, jwt }) => {
+    return userService.deleteAccount(userId, jwt);
+  }
+);
+
 export const viewAccountInfo = createAsyncThunk(
   'user/viewAccountInfo',
   async ({ userId, jwt }, { rejectWithValue }) => {
@@ -183,6 +190,11 @@ const userSlice = createSlice({
         invoices: [],
       };
       return user;
+    });
+
+    builder.addCase(deleteAccount.fulfilled, (state, action) => {
+      localStorage.removeItem('user');
+      return { deleted: true };
     });
 
     builder
