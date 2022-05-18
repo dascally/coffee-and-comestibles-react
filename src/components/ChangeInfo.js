@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Accordion, Button, Col, Container, Form, Row } from 'react-bootstrap';
 
 export default function ChangeInfo() {
@@ -9,16 +9,51 @@ export default function ChangeInfo() {
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [deletionPassword, setDeletionPassword] = useState('');
+  const [changePasswordValidated, setChangePasswordValidated] = useState(false);
+  const confirmNewPasswordRef = useRef(null);
+
+  const handleChangeNameSubmit = (evt) => {
+    evt.preventDefault();
+  };
+
+  const handleChangeEmailSubmit = (evt) => {
+    evt.preventDefault();
+  };
+
+  const handleChangePasswordSubmit = (evt) => {
+    evt.preventDefault();
+
+    if (evt.target.checkValidity() === false) {
+      evt.stopPropagation();
+      return;
+    }
+
+    // TODO: Dispatch password change action here.
+  };
+
+  const handleConfirmNewPasswordChange = (evt) => {
+    setConfirmNewPassword(evt.target.value);
+    setChangePasswordValidated(true);
+  };
+
+  useEffect(() => {
+    if (confirmNewPassword !== newPassword) {
+      confirmNewPasswordRef.current.setCustomValidity(
+        'Passwords do not match.'
+      );
+    } else {
+      confirmNewPasswordRef.current.setCustomValidity('');
+    }
+  }, [newPassword, confirmNewPassword]);
 
   return (
     <Container as='section' id='change'>
       <h2>Change account info</h2>
-      {/* TODO: Add real-time validation of new/confirm password fields. */}
       <Accordion>
         <Accordion.Item eventKey='change-name'>
           <Accordion.Header>Change name</Accordion.Header>
           <Accordion.Body>
-            <Form onSubmit={() => {}}>
+            <Form onSubmit={handleChangeNameSubmit}>
               <Row className='mb-2 g-1'>
                 <Form.Group controlId='change-firstname' as={Col}>
                   <Form.Label className='mb-1' style={{ width: '14ch' }}>
@@ -58,7 +93,7 @@ export default function ChangeInfo() {
         <Accordion.Item eventKey='change-email'>
           <Accordion.Header>Change email</Accordion.Header>
           <Accordion.Body>
-            <Form>
+            <Form onSubmit={handleChangeEmailSubmit}>
               <Form.Group controlId='change-email' className='mb-2'>
                 <Form.Label className='mb-1' style={{ width: '14ch' }}>
                   Email
@@ -82,7 +117,10 @@ export default function ChangeInfo() {
         <Accordion.Item eventKey='change-password'>
           <Accordion.Header>Change password</Accordion.Header>
           <Accordion.Body>
-            <Form>
+            <Form
+              onSubmit={handleChangePasswordSubmit}
+              validated={changePasswordValidated}
+            >
               <Form.Group controlId='changePasswordOld' className='mb-1'>
                 <Form.Label className='mb-1' style={{ width: '14ch' }}>
                   Old password
@@ -120,9 +158,8 @@ export default function ChangeInfo() {
                   name='confirm-new-password'
                   required
                   value={confirmNewPassword}
-                  onChange={(evt) => {
-                    setConfirmNewPassword(evt.target.value);
-                  }}
+                  onChange={handleConfirmNewPasswordChange}
+                  ref={confirmNewPasswordRef}
                 />
               </Form.Group>
               <div className='d-flex justify-content-center'>
