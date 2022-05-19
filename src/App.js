@@ -1,11 +1,12 @@
 import './App.scss';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { setUser } from './features/user/userSlice.js';
-import { fetchMenu } from './features/menu/menuSlice.js';
+import { setUser } from './features/user/userSlice';
+import { fetchMenu } from './features/menu/menuSlice';
+import { fetchEvents } from './features/events/eventsSlice';
 import { Outlet } from 'react-router-dom';
-import Header from './components/Header.js';
-import Footer from './components/Footer.js';
+import Header from './components/Header';
+import Footer from './components/Footer';
 
 function App(props) {
   const dispatch = useDispatch();
@@ -15,8 +16,14 @@ function App(props) {
     if (user) {
       dispatch(setUser(JSON.parse(user)));
     }
+  }, [dispatch]);
 
+  useEffect(() => {
     dispatch(fetchMenu());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchEvents());
   }, [dispatch]);
 
   return (
