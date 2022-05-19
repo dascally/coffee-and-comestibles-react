@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
-import menuReducer from '../features/menu/menuSlice.js';
-import orderReducer from '../features/order/orderSlice.js';
-import userReducer from '../features/user/userSlice.js';
+import menuReducer from '../features/menu/menuSlice';
+import orderReducer from '../features/order/orderSlice';
+import userReducer from '../features/user/userSlice';
 
 export default configureStore({
   reducer: {
