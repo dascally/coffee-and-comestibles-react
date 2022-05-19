@@ -131,7 +131,7 @@ export default function ChangeInfo() {
     <Container as='section' id='change'>
       <h2>Change account info</h2>
       {notification ? <p>{notification}</p> : null}
-      <Accordion>
+      <Accordion style={{ maxWidth: '35em' }}>
         <Accordion.Item eventKey='change-name'>
           <Accordion.Header>Change name</Accordion.Header>
           <Accordion.Body>
