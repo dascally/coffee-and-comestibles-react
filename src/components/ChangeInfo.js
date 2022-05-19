@@ -1,7 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Accordion, Button, Col, Container, Form, Row } from 'react-bootstrap';
-import { confirmPassword, deleteAccount } from '../features/user/userSlice';
+import {
+  confirmPassword,
+  updateAccount,
+  deleteAccount,
+} from '../features/user/userSlice';
 
 export default function ChangeInfo() {
   const dispatch = useDispatch();
@@ -19,25 +23,77 @@ export default function ChangeInfo() {
   const [deletionPasswordConfirmed, setDeletionPasswordConfirmed] =
     useState('');
   const [changePasswordValidated, setChangePasswordValidated] = useState(false);
+  const [notification, setNotification] = useState('');
   const confirmNewPasswordRef = useRef(null);
+  const timerId = useRef(null);
+
+  const setTimedNotification = (message) => {
+    clearTimeout(timerId.current);
+    setNotification(message);
+    timerId.current = setTimeout(() => {
+      setNotification('');
+    }, 3000);
+  };
 
   const handleChangeNameSubmit = (evt) => {
     evt.preventDefault();
+
+    const updatedUser = {};
+    if (firstName) updatedUser.firstName = firstName;
+    if (lastName) updatedUser.lastName = lastName;
+
+    dispatch(updateAccount({ userId, jwt: userToken, ...updatedUser }))
+      .unwrap()
+      .then((action) => {
+        setTimedNotification(
+          `Name successfully changed to ${firstName} ${lastName}.`
+        );
+        setFirstName('');
+        setLastName('');
+      })
+      .catch((err) => {
+        setTimedNotification(err.message);
+      });
   };
 
   const handleChangeEmailSubmit = (evt) => {
     evt.preventDefault();
+
+    dispatch(updateAccount({ userId, jwt: userToken, email }))
+      .unwrap()
+      .then((action) => {
+        setTimedNotification(`Email successfully changed to ${email}.`);
+        setEmail('');
+      })
+      .catch((err) => {
+        setTimedNotification(err.message);
+      });
   };
 
   const handleChangePasswordSubmit = (evt) => {
     evt.preventDefault();
 
-    if (evt.target.checkValidity() === false) {
-      evt.stopPropagation();
-      return;
-    }
-
-    // TODO: Dispatch password change action here.
+    dispatch(confirmPassword({ email: userEmail, password: oldPassword }))
+      .unwrap()
+      .then((action) => {
+        dispatch(
+          updateAccount({ userId, jwt: userToken, password: newPassword })
+        )
+          .unwrap()
+          .then((action) => {
+            setTimedNotification('Password successfully changed.');
+            setOldPassword('');
+            setNewPassword('');
+            setConfirmNewPassword('');
+            setChangePasswordValidated(false);
+          })
+          .catch((err) => {
+            setTimedNotification(err.message);
+          });
+      })
+      .catch((err) => {
+        setTimedNotification('Old password is incorrect.');
+      });
   };
 
   const handleDeletionConfirmPasswordSubmit = (evt) => {
@@ -74,6 +130,7 @@ export default function ChangeInfo() {
   return (
     <Container as='section' id='change'>
       <h2>Change account info</h2>
+      {notification ? <p>{notification}</p> : null}
       <Accordion>
         <Accordion.Item eventKey='change-name'>
           <Accordion.Header>Change name</Accordion.Header>

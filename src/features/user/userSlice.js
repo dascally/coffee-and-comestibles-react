@@ -28,6 +28,14 @@ export const deleteAccount = createAsyncThunk(
   }
 );
 
+export const updateAccount = createAsyncThunk(
+  'user/updateAccount',
+  ({ userId, jwt, firstName, lastName, email, password }) => {
+    const user = { firstName, lastName, email, password };
+    return userService.updateAccount(userId, jwt, user);
+  }
+);
+
 export const viewAccountInfo = createAsyncThunk(
   'user/viewAccountInfo',
   async ({ userId, jwt }, { rejectWithValue }) => {
@@ -195,6 +203,15 @@ const userSlice = createSlice({
     builder.addCase(deleteAccount.fulfilled, (state, action) => {
       localStorage.removeItem('user');
       return { deleted: true };
+    });
+
+    builder.addCase(updateAccount.fulfilled, (state, action) => {
+      const user = {
+        firstName: action.payload.firstName,
+        lastName: action.payload.lastName,
+        email: action.payload.email,
+      };
+      return { ...state, ...user };
     });
 
     builder

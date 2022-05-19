@@ -41,6 +41,41 @@ const deleteAccount = async (userId, jwt) => {
   }
 };
 
+const updateAccount = async (
+  userId,
+  jwt,
+  { firstName, lastName, email, password }
+) => {
+  try {
+    const newUser = {};
+    if (firstName) newUser.firstName = firstName;
+    if (lastName) newUser.lastName = lastName;
+    if (email) newUser.email = email;
+    if (password) newUser.password = password;
+
+    const res = await fetch(`${baseUrl}/users/${userId}`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newUser),
+    });
+
+    if (!res.ok) {
+      const body = await res.json();
+      const err = new Error(body.message ?? 'Error updating account info.');
+      err.status = res.status;
+      throw err;
+    }
+
+    const user = await res.json();
+    return user;
+  } catch (err) {
+    throw err;
+  }
+};
+
 const getRewards = async (userId, jwt) => {
   try {
     const result = await fetch(`${baseUrl}/users/${userId}`, {
@@ -243,6 +278,7 @@ const deleteSavedOrder = async (userId, jwt, orderId) => {
 const service = {
   register,
   deleteAccount,
+  updateAccount,
   getRewards,
   getSavedOrders,
   getSavedPayments,
