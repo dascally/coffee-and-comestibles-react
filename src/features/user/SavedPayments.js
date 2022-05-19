@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import SavedPaymentCard from './SavedPaymentCard';
-import AddSavedPayment from './AddSavedPayment';
+import AddSavedPayment from '../../components/AddSavedPayment';
 
 export default function SavedPayments() {
   const savedPayments = useSelector((state) => state.user?.savedPayments);

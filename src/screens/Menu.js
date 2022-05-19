@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { Container, Row, Col, Accordion } from 'react-bootstrap';
-import MenuItemCard from '../components/MenuItemCard.js';
-import ShoppingBasket from '../components/ShoppingBasket.js';
+import MenuItemCard from '../features/menu/MenuItemCard.js';
+import ShoppingBasket from '../features/order/ShoppingBasket.js';
 
 const structureMenuData = (flatMenuData) => {
   const structuredMenuData = [];

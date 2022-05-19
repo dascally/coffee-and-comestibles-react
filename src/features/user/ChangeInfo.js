@@ -1,11 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Accordion, Button, Col, Container, Form, Row } from 'react-bootstrap';
-import {
-  confirmPassword,
-  updateAccount,
-  deleteAccount,
-} from '../features/user/userSlice';
+import { confirmPassword, updateAccount, deleteAccount } from './userSlice';
 
 export default function ChangeInfo() {
   const dispatch = useDispatch();

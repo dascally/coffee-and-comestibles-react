@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Card } from 'react-bootstrap';
-import { deleteSavedPayment } from '../features/user/userSlice';
+import { deleteSavedPayment } from './userSlice';
 import EditPaymentForm from './EditPaymentForm';
 
 const SavedPaymentCard = (props) => {

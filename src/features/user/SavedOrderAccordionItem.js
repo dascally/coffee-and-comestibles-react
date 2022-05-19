@@ -1,10 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  selectSavedOrderById,
-  deleteSavedOrder,
-} from '../features/user/userSlice';
+import { selectSavedOrderById, deleteSavedOrder } from './userSlice';
 import { Accordion, Button, Table } from 'react-bootstrap';
-import OrderItemTableRow from './OrderItemTableRow';
+import OrderItemTableRow from '../../components/OrderItemTableRow';
 
 export default function SavedOrderAccordionItem({ orderId }) {
   const dispatch = useDispatch();

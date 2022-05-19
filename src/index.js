@@ -15,11 +15,11 @@ import Contact from './screens/Contact.js';
 import Account from './screens/Account.js';
 import OrderConfirmation from './screens/OrderConfirmation.js';
 
-import Rewards from './components/Rewards';
-import SavedOrders from './components/SavedOrders';
-import SavedPayments from './components/SavedPayments';
-import ChangeInfo from './components/ChangeInfo';
-import AccountOverview from './components/AccountOverview';
+import Rewards from './features/user/Rewards';
+import SavedOrders from './features/user/SavedOrders';
+import SavedPayments from './features/user/SavedPayments';
+import ChangeInfo from './features/user/ChangeInfo';
+import AccountOverview from './features/user/AccountOverview';
 
 render(
   <StrictMode>

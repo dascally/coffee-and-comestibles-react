@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
-import Invoice from '../components/Invoice';
+import Invoice from '../features/order/Invoice';
 
 export default function Checkout() {
   const params = useParams();

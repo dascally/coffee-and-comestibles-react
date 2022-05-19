@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { register } from '../features/user/userSlice';
+import { register } from './userSlice';
 import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
 
 export default function RegisterModal({ show, setShow }) {

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Col, Row } from 'react-bootstrap';
-import { editSavedPayment } from '../features/user/userSlice';
+import { editSavedPayment } from './userSlice';
 
 const EditPaymentForm = ({
   billingName,

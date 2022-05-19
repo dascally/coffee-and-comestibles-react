@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { login, logout } from '../features/user/userSlice';
+import { login, logout } from './userSlice';
 import { Button, Dropdown, Form, Nav } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import RegisterModal from './RegisterModal';

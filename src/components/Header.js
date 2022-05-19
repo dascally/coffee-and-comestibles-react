@@ -2,7 +2,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { Col, Navbar } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMugHot } from '@fortawesome/free-solid-svg-icons';
-import LoginDropdown from './LoginDropdown.js';
+import LoginDropdown from '../features/user/LoginDropdown';
 
 export default function Header(props) {
   return (

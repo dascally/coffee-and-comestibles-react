@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { removeItem, selectOrderItemById } from '../features/order/orderSlice';
-import { selectMenuItemById } from '../features/menu/menuSlice';
+import { removeItem, selectOrderItemById } from './orderSlice';
+import { selectMenuItemById } from '../menu/menuSlice';
 import { Button, Card, Col, Image, Row } from 'react-bootstrap';
 
 function ShoppingBasketItemCard({ orderItemId, ...props }) {
