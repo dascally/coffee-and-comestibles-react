@@ -1,4 +1,5 @@
-const baseUrl = process.env.REACT_APP_SERVICE_URL;
+import * as config from '../config';
+const baseUrl = config.SERVICE_URL;
 
 const register = async ({ firstName, lastName, email, password }) => {
   try {
