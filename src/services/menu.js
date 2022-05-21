@@ -1,6 +1,5 @@
 import * as config from '../config';
 const baseUrl = config.SERVICE_URL;
-console.log('url', baseUrl);
 
 const getMenu = async () => {
   try {
