@@ -14,33 +14,28 @@ export default function SavedPayments() {
       {!savedPayments.length ? (
         <p>You don't have any saved payment methods.</p>
       ) : (
-        <>
-          <Row xs={1} md={2} className='g-3 mb-3'>
-            {savedPayments.map((savedPayment) => (
-              <Col key={savedPayment._id}>
-                <SavedPaymentCard {...savedPayment} />
-              </Col>
-            ))}
-          </Row>
-          <Row>
-            <Col>
-              <Button
-                onClick={() => {
-                  setShowAddPayment(!showAddPayment);
-                }}
-                variant='secondary'
-                size='sm'
-              >
-                {!showAddPayment ? 'Add a new payment method' : 'Cancel'}
-              </Button>
-              <AddSavedPayment
-                open={showAddPayment}
-                setOpen={setShowAddPayment}
-              />
+        <Row xs={1} md={2} className='g-3 mb-3'>
+          {savedPayments.map((savedPayment) => (
+            <Col key={savedPayment._id}>
+              <SavedPaymentCard {...savedPayment} />
             </Col>
-          </Row>
-        </>
+          ))}
+        </Row>
       )}
+      <Row>
+        <Col>
+          <Button
+            onClick={() => {
+              setShowAddPayment(!showAddPayment);
+            }}
+            variant='secondary'
+            size='sm'
+          >
+            {!showAddPayment ? 'Add a new payment method' : 'Cancel'}
+          </Button>
+          <AddSavedPayment open={showAddPayment} setOpen={setShowAddPayment} />
+        </Col>
+      </Row>
     </Container>
   );
 }
