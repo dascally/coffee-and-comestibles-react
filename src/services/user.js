@@ -233,7 +233,6 @@ const editSavedPayment = async (
 const addSavedOrder = async (userId, jwt, { name, orderList }) => {
   try {
     const order = { name, orderList };
-    console.log('savedOrder', JSON.stringify(order));
 
     const result = await fetch(`${baseUrl}/users/${userId}/savedOrders`, {
       method: 'POST',
